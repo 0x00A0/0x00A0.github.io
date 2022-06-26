@@ -23,7 +23,7 @@ background-attachment: fixed;">
         // 定义函数传入time元素
         function up(time_el) {
             // 获取当前时间
-            let date = new Date();
+            let date = new Date((res.data[0][1]).replace(/-/g, '/'))
             // 获取时分秒
             let h = date.getHours();
             let m = date.getMinutes();
