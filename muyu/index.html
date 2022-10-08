@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>电子木鱼</title>
+    <link rel="stylesheet" href="./asset/css/default.css" />
+    <link rel="shortcut icon" href="./asset/img/icon.jpg" />
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="./asset/css/element.css" />
+    <style>
+      body {
+        background-color: black;
+        color: #fff;
+      }
+      .qiaoji {
+        margin-top: 10%;
+        width: 100%;
+        height: 30vh;
+        text-align: center;
+      }
+      .muyu {
+        width: 211px;
+        height: 211px;
+        margin: 0 auto;
+      }
+      .sf {
+        animation: suofang 0.3s;
+      }
+      .gongde {
+        position: absolute;
+        left: 70%;
+        top: 24%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 30px;
+        font-size: 21px;
+      }
+      .gongdejiayi {
+        animation: textMove 0.6s;
+      }
+      .gongdeLuBox {
+        position: absolute;
+        width: 80%;
+        height: 600px;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid white;
+        background-color: black;
+        z-index: 3;
+        animation: showBox 0.5s;
+      }
+      .gongdeLuBox h1 {
+        text-align: center;
+      }
+
+      .btns {
+        display: flex;
+        justify-content: space-between;
+        width: 70%;
+        margin: 40% auto 0;
+      }
+      .close {
+        position: absolute;
+        right: 3%;
+        top: 1%;
+        width: 32px;
+        height: 32px;
+        background: url("asset/img/关闭.png") no-repeat;
+      }
+
+      /* 反馈 */
+      .feedBack {
+        width: 90%;
+        margin: 20% auto 0;
+      }
+      .feedBack div {
+        text-align: center;
+      }
+      /* 木鱼 */
+      @keyframes suofang {
+        50% {
+          transform: scale(0.8, 0.8);
+        }
+        100% {
+          transform: scale(1, 1);
+        }
+      }
+      /* 字体向上消失 */
+      @keyframes textMove {
+        from {
+          top: 24%;
+          opacity: 1;
+        }
+        to {
+          top: 22%;
+          opacity: 0;
+        }
+      }
+      /* 弹窗出现动画 */
+      @keyframes showBox {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <!-- 敲击次数 -->
+      <div class="qiaoji">
+        <h2>今日敲击次数</h2>
+        <br />
+        <h2>{{count}}</h2>
+      </div>
+      <!-- 功德 -->
+      <div class="gongde" :class="{gongdejiayi}">{{gongde}}</div>
+      <!-- 木鱼 -->
+      <div class="muyu" :class="{sf}" @click="chuang">
+        <img src="./asset/img/muyu.jpg" />
+      </div>
+      <audio ref="ding" src="./asset/audio/muyu.mp3"></audio>
+      <!-- 反馈 -->
+        <div class="feedBack">
+          <div>0x00A0</div>
+        </div>
+      </div>
+    </div>
+    <!-- 导入 Vue -->
+    <script src="./asset/js/Vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="./asset/js/elementUI.js"></script>
+    <script>
+      let isclick = true;
+      const App = {
+        data() {
+          return {
+            count: 0,
+            sf: false,
+            gongdejiayi: false,
+            gongde: "",
+            Data: [],
+            gongdeLuBox: false,
+            shuangchuanBox: false,
+            isCommit: "",
+            text: "",
+            sendMsg: "",
+          };
+        },
+        created() {
+          this.getData();
+          this.Time();
+        },
+        mounted() {
+          this.dangDang();
+          let sendMsg = localStorage.getItem("sendMsg");
+          if (sendMsg == null) {
+            this.sendMsg = 0;
+          }
+        },
+        methods: {
+          async getData() {
+            const { data } = await axios.get("./asset/test.json");
+            this.Data = data.userBox;
+          },
+          // 敲击次数
+          dangDang() {
+            let count = localStorage.getItem("count");
+            this.count = count;
+            if (count == null) {
+              this.count = 0;
+            }
+          },
+          chuang() {
+            if (isclick) {
+              this.gongdejiayi = true;
+              isclick = false;
+              let ding = this.$refs.ding;
+              ding.play();
+              this.gongde = "功德+1";
+
+              ding.addEventListener("ended", () => {
+                isclick = true;
+                this.sf = false;
+                this.gongde = "";
+                this.gongdejiayi = false;
+              });
+              this.sf = true;
+              this.count++;
+              localStorage.setItem("count", this.count);
+            }
+          },
+
+          Time() {
+            // 当前时间
+            const date = new Date().getTime();
+            // 一天的时间
+            let EXPIRESTIME = 86400000;
+            // 获取用户提交的时间
+            let userTime = localStorage.getItem("userTime");
+            if (userTime == null) {
+              localStorage.setItem("userTime", date);
+            }
+            let count = localStorage.getItem("count");
+            if (date - userTime > EXPIRESTIME) {
+              localStorage.setItem("count", 0);
+              localStorage.setItem("sendMsg", 0);
+            }
+          },
+        },
+        watch: {
+          text(newName, oldName) {
+            if (newName !== "") {
+              this.isCommit = false;
+            } else {
+              this.isCommit = true;
+            }
+          },
+        },
+      };
+      const app = Vue.createApp(App);
+      app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+  </body>
+</html>
