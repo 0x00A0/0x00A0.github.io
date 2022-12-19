@@ -21,7 +21,7 @@ function FindProxyForURL(url, host)
       || shExpMatch(url,"*ip*")
       || shExpMatch(url,"*acgvideo*")
     ) {
-       return "SOCKS5 49.4.89.129:8888; SOCKS4 49.4.89.129:8888; SOCKS 49.4.89.129; DIRECT";
+       return "SOCKS5 49.4.89.129:8888; SOCKS4 49.4.89.129:8888; SOCKS 49.4.89.129";
     }
     return 'DIRECT';
 }
