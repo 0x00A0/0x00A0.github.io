@@ -19,6 +19,7 @@ function FindProxyForURL(url, host)
       || shExpMatch(url,"*szbdyd*")
       || shExpMatch(url,"*ytimg*")
       || shExpMatch(url,"*ip*")
+      || shExpMatch(url,"*acgvideo*")
     ) {
        return "SOCKS 49.4.89.128:8888";
     }
