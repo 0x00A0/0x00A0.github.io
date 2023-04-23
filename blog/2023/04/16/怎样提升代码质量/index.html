@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="怎样提升代码质量尽管写了多年的代码，但是始终有一件事不敢确定，就是自己的代码究竟写得好不好？这个问题很难有确切的答案，因为这个跟风格、规范有很大关系，而风格、规范很难说好还是不好。 但我觉得好的代码，一定是能让别人阅读起来有一种爽心悦目的感觉。 1. 开发规范不管是团队协作还是个人独立开发，遵循一定的开发规范都是很有必要的。就团队协作来说，可能每个人的风格迥然不同，如果没有规范的约束的话，团队之间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎样提升代码质量">
+<meta property="og:url" content="http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="怎样提升代码质量尽管写了多年的代码，但是始终有一件事不敢确定，就是自己的代码究竟写得好不好？这个问题很难有确切的答案，因为这个跟风格、规范有很大关系，而风格、规范很难说好还是不好。 但我觉得好的代码，一定是能让别人阅读起来有一种爽心悦目的感觉。 1. 开发规范不管是团队协作还是个人独立开发，遵循一定的开发规范都是很有必要的。就团队协作来说，可能每个人的风格迥然不同，如果没有规范的约束的话，团队之间">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-16T12:17:56.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:38:29.539Z">
+<meta property="article:author" content="万昕睿">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>怎样提升代码质量</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/blog/2023/04/17/%E5%8D%95%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8%EF%BC%88SPA%EF%BC%89%E3%80%81%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&text=怎样提升代码质量"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&is_video=false&description=怎样提升代码质量"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=怎样提升代码质量&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&name=怎样提升代码质量&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&t=怎样提升代码质量"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">怎样提升代码质量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.</span> <span class="toc-text">1. 开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#js-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">js 开发规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#css-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">css 开发规范</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%A3%80%E6%9F%A5%E3%80%81%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">2. 使用工具检查、自动矫正与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%A3%80%E6%9F%A5%E4%B8%8E%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 检查与自动矫正</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">运行命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 代码优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">运行命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%BC%BA%E5%88%B6%E5%AF%B9%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%A3%80%E6%9F%A5%E3%80%81%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 强制对代码进行检查、自动矫正与优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E8%BE%91%E5%99%A8%E9%85%8D%E7%BD%AE%EF%BC%9A-editorconfig"><span class="toc-number">1.3.</span> <span class="toc-text">3. 编辑器配置：.editorconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E4%BC%98%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">4. 业务逻辑优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%80%BB%E8%BE%91%E8%A7%A3%E8%80%A6"><span class="toc-number">1.5.</span> <span class="toc-text">5. 逻辑解耦</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%8A%9F%E8%83%BD%E5%88%86%E5%9D%97"><span class="toc-number">1.6.</span> <span class="toc-text">6. 功能分块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A4%9A%E9%98%85%E8%AF%BB"><span class="toc-number">1.7.</span> <span class="toc-text">7. 多阅读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.8.</span> <span class="toc-text">8. 后续</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        怎样提升代码质量
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">万昕睿</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-16T12:17:56.000Z" class="dt-published" itemprop="datePublished">2023-04-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="怎样提升代码质量"><a href="#怎样提升代码质量" class="headerlink" title="怎样提升代码质量"></a>怎样提升代码质量</h1><p>尽管写了多年的代码，但是始终有一件事不敢确定，就是自己的代码究竟写得好不好？这个问题很难有确切的答案，因为这个跟风格、规范有很大关系，而风格、规范很难说好还是不好。</p>
+<p>但我觉得好的代码，一定是能让别人阅读起来有一种爽心悦目的感觉。</p>
+<h2 id="1-开发规范"><a href="#1-开发规范" class="headerlink" title="1. 开发规范"></a>1. 开发规范</h2><p>不管是团队协作还是个人独立开发，遵循一定的开发规范都是很有必要的。就团队协作来说，可能每个人的风格迥然不同，如果没有规范的约束的话，团队之间的协作会大打折扣的。而就个人独立开发来说，很难说一年后的你回头看今天自己写的代码是满意的。</p>
+<h4 id="js-开发规范"><a href="#js-开发规范" class="headerlink" title="js 开发规范"></a><code>js</code> 开发规范</h4><p>一般前端开发的主要工作都要 <code>js</code> 部分，所以一般前端开发规范都是对 <code>js</code> 而言的。</p>
+<p>认可度比较高的有：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript">airbnb js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/styleguide/jsguide.html">google js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rwaldron/idiomatic.js">idiomatic js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard">standard js style</a></li>
+</ul>
+<h4 id="css-开发规范"><a href="#css-开发规范" class="headerlink" title="css 开发规范"></a><code>css</code> 开发规范</h4><p>认可度比较高的有：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/css">airbnb css style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/necolas/idiomatic-css">idiomatic css style</a></li>
+</ul>
+<h2 id="2-使用工具检查、自动矫正与优化"><a href="#2-使用工具检查、自动矫正与优化" class="headerlink" title="2. 使用工具检查、自动矫正与优化"></a>2. 使用工具检查、自动矫正与优化</h2><p>尽管有规范可循，但其实开发的时候并不知道自己的代码是否是符合规范的，所以就需要工具来检查与矫正代码。</p>
+<h3 id="2-1-检查与自动矫正"><a href="#2-1-检查与自动矫正" class="headerlink" title="2.1 检查与自动矫正"></a>2.1 检查与自动矫正</h3><p>认可度比较高的有：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/eslint/eslint">eslint</a>：检查 js 语法（包括 jsx 语法），然后最大程度的矫正不符合规范的代码；</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stylelint/stylelint">stylelint</a>：检查 css 语法（包括 less, scss 语法），然后最大程度的矫正不符合规范的代码。</li>
+</ol>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><code>目录文件</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">|-- root/                    // 项目根目录</span><br><span class="line">    |-- package.json</span><br><span class="line">    |-- .eslintrc            // eslint 配置文件</span><br><span class="line">    |-- .eslintignore        // eslint 忽略配置，类似 .gitignore</span><br><span class="line">    |-- .stylelintrc         // stylelint 配置文件</span><br><span class="line">    |-- .stylelintignore     // stylelint 忽略配置，类似 .gitignore</span><br></pre></td></tr></table></figure>
+
+<p><code>package.json</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;eslint&quot;: &quot;eslint .&quot;,                             // 仅检查</span><br><span class="line">  &quot;eslint:fix&quot;: &quot;eslint . --fix&quot;,                   // 检查之后自动矫正</span><br><span class="line"></span><br><span class="line">  &quot;stylelint&quot;: &quot;stylelint \&quot;./**/*.&#123;css,less,sass,scss&#125;\&quot;&quot;,             // 仅检查</span><br><span class="line">  &quot;stylelint:fix&quot;: &quot;stylelint \&quot;./**/*.&#123;css,less,sass,scss&#125;\&quot; --fix&quot;    // 检查之后自动矫正</span><br><span class="line">&#125;,</span><br><span class="line">&quot;devDependencies&quot;: &#123;</span><br><span class="line">  &quot;eslint&quot;: &quot;^4.19.1&quot;,                              // eslint 主文件</span><br><span class="line">  &quot;babel-eslint&quot;: &quot;^8.2.5&quot;,                         // babel 转码器 for eslint</span><br><span class="line">  &quot;eslint-config-airbnb&quot;: &quot;^17.0.0&quot;,                // airbnb eslint 规则</span><br><span class="line">  &quot;eslint-config-prettier&quot;: &quot;^2.9.0&quot;,               // prettier eslint 规则</span><br><span class="line">  &quot;eslint-plugin-babel&quot;: &quot;^5.1.0&quot;,                  // eslint 的 babel 转码插件</span><br><span class="line">  &quot;eslint-plugin-import&quot;: &quot;^2.13.0&quot;,                // eslint 检查模块输入输出是否正确的插件</span><br><span class="line">  &quot;eslint-plugin-jsx-a11y&quot;: &quot;^6.1.0&quot;,               // eslint jsx 语法检查的一个插件</span><br><span class="line">  &quot;eslint-plugin-prettier&quot;: &quot;^2.6.2&quot;,               // prettier eslint 插件</span><br><span class="line">  &quot;eslint-plugin-react&quot;: &quot;^7.10.0&quot;,                 // eslint react 语法检查插件</span><br><span class="line"></span><br><span class="line">  &quot;stylelint&quot;: &quot;^9.3.0&quot;,                            // stylelint 主文件</span><br><span class="line">  &quot;stylelint-config-prettier&quot;: &quot;^3.3.0&quot;,            // prettier stylelint 规则</span><br><span class="line">  &quot;stylelint-config-standard&quot;: &quot;^18.2.0&quot;            // standard stylelint 规则</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><code>.eslintrc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;parser&quot;: &quot;babel-eslint&quot;,</span><br><span class="line">  &quot;extends&quot;: [&quot;airbnb&quot;, &quot;prettier&quot;],</span><br><span class="line">  &quot;env&quot;: &#123;</span><br><span class="line">    &quot;browser&quot;: true,</span><br><span class="line">    &quot;node&quot;: true,</span><br><span class="line">    &quot;es6&quot;: true,</span><br><span class="line">    &quot;mocha&quot;: true,</span><br><span class="line">    &quot;jest&quot;: true,</span><br><span class="line">    &quot;jasmine&quot;: true</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;rules&quot;: &#123;</span><br><span class="line">    ... // 更多自己定义的规则</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>.stylelintrc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;extends&quot;: [&quot;stylelint-config-standard&quot;, &quot;stylelint-config-prettier&quot;],</span><br><span class="line">  &quot;rules&quot;: &#123;</span><br><span class="line">    ... // 更多自己定义的规则</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行命令"><a href="#运行命令" class="headerlink" title="运行命令"></a>运行命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm run eslint           // 检查项目中的 js(jsx) 语法</span><br><span class="line">npm run eslint:fix       // 检查项目中的 js(jsx) 语法，并最大程度的矫正</span><br><span class="line"></span><br><span class="line">npm run stylelint        // 检查项目中的 css(less,scss) 语法</span><br><span class="line">npm run stylelint:fix    // 检查项目中的 css(less,scss) 语法，并最大程度的矫正</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-代码优化"><a href="#2-2-代码优化" class="headerlink" title="2.2 代码优化"></a>2.2 代码优化</h3><p><a target="_blank" rel="noopener" href="https://github.com/eslint/eslint">eslint</a> 与 <a target="_blank" rel="noopener" href="https://github.com/stylelint/stylelint">stylelint</a> 在对代码做检查和自动矫正时，只保证代码的语法是符合一定的规范，并不对代码的格式做任何优化，所以，自动矫正后的代码可能格式会不太好，阅读性不太高。</p>
+<p>所以，一般会在对代码检查与自动矫正之后做代码格式优化。</p>
+<p>使用比较多的：<a target="_blank" rel="noopener" href="https://github.com/prettier/prettier">prettier</a>.</p>
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><p><code>目录文件</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|-- root/                    // 项目根目录</span><br><span class="line">    |-- package.json</span><br><span class="line">    |-- .prettierrc          // prettier 配置文件</span><br><span class="line">    |-- .prettierignore      // prettier 忽略配置，类似 .gitignore</span><br></pre></td></tr></table></figure>
+
+<p><code>package.json</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  // 对 js,jsx,css,less,md,json 文件进行优化</span><br><span class="line">  &quot;prettier&quot;: &quot;prettier --write \&quot;./**/*.&#123;js,jsx,css,less,md,json&#125;\&quot;&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;devDependencies&quot;: &#123;</span><br><span class="line">  &quot;prettier&quot;: &quot;^1.13.7&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><code>.prettierrc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;singleQuote&quot;: true,</span><br><span class="line">  &quot;trailingComma&quot;: &quot;es5&quot;,</span><br><span class="line">  &quot;printWidth&quot;: 120,</span><br><span class="line">  &quot;overrides&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;files&quot;: &quot;.prettierrc&quot;,</span><br><span class="line">      &quot;options&quot;: &#123; &quot;parser&quot;: &quot;json&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行命令-1"><a href="#运行命令-1" class="headerlink" title="运行命令"></a>运行命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run prettier</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-强制对代码进行检查、自动矫正与优化"><a href="#2-3-强制对代码进行检查、自动矫正与优化" class="headerlink" title="2.3 强制对代码进行检查、自动矫正与优化"></a>2.3 强制对代码进行检查、自动矫正与优化</h3><p>尽管定好了规范与工具命令，但开发人员完全可以跳过这些步骤，这尤其是在团队开发中很难强制其他组员会去做代码检查、自动矫正与优化。</p>
+<p>所以，使用工具强制开发人员对代码进行检查、自动矫正与优化，就显得很有必要了。</p>
+<p>使用比较多的：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/typicode/husky">husky</a>：对 git 进行 hook，可以在 git 操作之前做一些操作；</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/okonet/lint-staged">lint-staged</a>：对当前 git 提交的代码进行一些操作。</li>
+</ul>
+<p><code>package.json</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;precommit&quot;: &quot;npm run lint-staged&quot;,     // 在 git 提交之前运行 lint-staged 命令</span><br><span class="line">  &quot;lint-staged&quot;: &quot;lint-staged&quot;,           // 对 git 将要提交的代码做操作</span><br><span class="line">&#125;,</span><br><span class="line">&quot;devDependencies&quot;: &#123;</span><br><span class="line">  &quot;husky&quot;: &quot;^0.14.3&quot;,</span><br><span class="line">  &quot;lint-staged&quot;: &quot;^7.2.0&quot;,</span><br><span class="line">&#125;,</span><br><span class="line">&quot;lint-staged&quot;: &#123;</span><br><span class="line">  &quot;**/*.&#123;js,jsx&#125;&quot;: [</span><br><span class="line">    &quot;eslint --fix&quot;,                      // 对 js,jsx 文件进行 eslint 检查、自动矫正</span><br><span class="line">    &quot;prettier --write&quot;,                  // 然后 使用 prettier 进行代码格式优化</span><br><span class="line">    &quot;git add&quot;                            // 最后重新添加</span><br><span class="line">  ],</span><br><span class="line">  &quot;**/*.&#123;css,less&#125;&quot;: [</span><br><span class="line">    &quot;stylelint --fix&quot;,                   // 对 css,less 文件进行 stylelint 检查、自动矫正</span><br><span class="line">    &quot;prettier --write&quot;,                  // 然后 使用 prettier 进行代码格式优化</span><br><span class="line">    &quot;git add&quot;                            // 最后重新添加</span><br><span class="line">  ],</span><br><span class="line">  &quot;**/*.&#123;md,json&#125;&quot;: [</span><br><span class="line">    &quot;prettier --write&quot;,                  // 使用 prettier 进行代码格式优化</span><br><span class="line">    &quot;git add&quot;                            // 最后重新添加</span><br><span class="line">  ]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>这样，在每次 <code>git commit</code> 之前，都会对将要提交的文件进行检查、自动矫正与优化，如果其中有一项发生错误，本次提交都会失败。然后开发人员调整代码之后再进行提交，只有每项任务都是没问题的，才能提交成功。</p>
+<p>这样，便可使每个开发人员都是按照一定的规范与风格写代码的。</p>
+<h2 id="3-编辑器配置：-editorconfig"><a href="#3-编辑器配置：-editorconfig" class="headerlink" title="3. 编辑器配置：.editorconfig"></a>3. 编辑器配置：<code>.editorconfig</code></h2><p>有了规范，也加上了工具做自动化代码检查、矫正与优化，但还有一点需要提及一下，就是在团队协作中，每个开发人员可能使用的编辑器不一样，编辑器的配置也不一样，这就导致工具在做格式优化的时候，不同的开发人员中输出的代码不一样。</p>
+<p>这就需要配置文件 <code>.editorconfig</code> 去统一每个开发人员的编辑器配置。</p>
+<p><code>目录文件</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">|-- root/                    // 项目根目录</span><br><span class="line">    |-- .editorconfig        // 编辑器配置文件</span><br></pre></td></tr></table></figure>
+
+<p><code>.editorconfig</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># http://editorconfig.org</span><br><span class="line">root = true</span><br><span class="line"></span><br><span class="line">[*]</span><br><span class="line">indent_style = space                    # 输入的 tab 都用空格代替</span><br><span class="line">indent_size = 2                         # 一个 tab 用 2 个空格代替</span><br><span class="line">end_of_line = lf                        # 换行符使用 unix 的换行符 \n</span><br><span class="line">charset = utf-8                         # 字符编码 utf-8</span><br><span class="line">trim_trailing_whitespace = true         # 去掉每行末尾的空格</span><br><span class="line">insert_final_newline = true             # 每个文件末尾都加一个空行</span><br><span class="line"></span><br><span class="line">[*.md]</span><br><span class="line">trim_trailing_whitespace = false        # .md 文件不去掉每行末尾的空格</span><br></pre></td></tr></table></figure>
+
+<p>更多的编辑器配置规则，可以查看 <a target="_blank" rel="noopener" href="http://editorconfig.org/">http://editorconfig.org</a>.</p>
+<h2 id="4-业务逻辑优化"><a href="#4-业务逻辑优化" class="headerlink" title="4. 业务逻辑优化"></a>4. 业务逻辑优化</h2><p>上面提到的这些只是风格、规范、语法上的优化，但对编码质量的评估更多的是在业务逻辑具体实现这一块。</p>
+<p>一般来说，业务逻辑实现的优化离不开下面几个方向：</p>
+<ol>
+<li>模块化：<ul>
+<li>js 的模块化已经很成熟了，目前使用最多的是 <code>commonjs</code> 模块化规范和 <code>es6</code> 模块；</li>
+<li>css 的模块化也一直在探索中，之前也专门写了一篇 <a href="/10.md">CSS 模块化</a>，可以参考下；</li>
+<li>html 没有模块化，但是可以将一个很长的 html 文件进行分块，参考 <a target="_blank" rel="noopener" href="https://github.com/webpack-contrib/html-loader">html-loader</a>。</li>
+</ul>
+</li>
+<li>组件化：当项目变大、变多，很多公共的代码需要复用或者跨项目使用的时候，组件化就变得很必要了，之前也专门写了一篇 <a href="/6.md">组件化</a>，可以参考下；</li>
+<li>逻辑解耦：把一个复杂的逻辑，分割成多个子逻辑，然后将子逻辑串起来，或者把多个交叉逻辑的公共部分拆出来，然后再挨个串起来；</li>
+<li>功能分块：细化一个一个的功能为单独的模块。</li>
+</ol>
+<h2 id="5-逻辑解耦"><a href="#5-逻辑解耦" class="headerlink" title="5. 逻辑解耦"></a>5. 逻辑解耦</h2><p>逻辑解耦就是把一个复杂的逻辑，分割成多个子逻辑，或者把多个交叉逻辑的公共部分拆成单个逻辑。这样做的目的是降低应用的复杂度，更据阅读性。</p>
+<p>比如，3 个串行的 ajax 请求，可以分割成多个子逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.getJSON(url1, data1, res1 =&gt; &#123;</span><br><span class="line">  // do something with res1</span><br><span class="line"></span><br><span class="line">  $.getJSON(url2, data2, res2 =&gt; &#123;</span><br><span class="line">    // do something with res2</span><br><span class="line"></span><br><span class="line">    $.getJSON(url3, data3, res3 =&gt; &#123;</span><br><span class="line">      // do something with res3</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>逻辑解耦之后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const request1 = () =&gt; &#123;</span><br><span class="line">  $.getJSON(url1, data1, res1 =&gt; &#123;</span><br><span class="line">    // do something with res1</span><br><span class="line"></span><br><span class="line">    request2();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">const request2 = () =&gt; &#123;</span><br><span class="line">  $.getJSON(url2, data2, res2 =&gt; &#123;</span><br><span class="line">    // do something with res2</span><br><span class="line"></span><br><span class="line">    request3();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">const request3 = () =&gt; &#123;</span><br><span class="line">  $.getJSON(url3, data3, res3 =&gt; &#123;</span><br><span class="line">    // do something with res3</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">request1();</span><br></pre></td></tr></table></figure>
+
+<p>再比如，在不同文件中需要依赖同一个 ajax 请求，可以把交叉逻辑的部分拆成单个逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># file1.js</span><br><span class="line"></span><br><span class="line">$.getJSON(url, data, res =&gt; &#123;</span><br><span class="line">  // do something with res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># file2.js</span><br><span class="line"></span><br><span class="line">$.getJSON(url, data, res =&gt; &#123;</span><br><span class="line">  // do something with res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>逻辑解耦之后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># request.js</span><br><span class="line"></span><br><span class="line">module.exports = cb =&gt; &#123;</span><br><span class="line">  $.getJSON(url, data, res =&gt; &#123;</span><br><span class="line">    cb(res);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"># file1.js</span><br><span class="line"></span><br><span class="line">const request = require(&#x27;./request&#x27;);</span><br><span class="line">request(res =&gt; &#123;</span><br><span class="line">  // do something with res</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"># file2.js</span><br><span class="line"></span><br><span class="line">const request = require(&#x27;./request&#x27;);</span><br><span class="line">request(res =&gt; &#123;</span><br><span class="line">  // do something with res</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-功能分块"><a href="#6-功能分块" class="headerlink" title="6. 功能分块"></a>6. 功能分块</h2><p>细化功能为单独的模块也是提升代码质量的一个方式。</p>
+<p>比如，将一个文件拆成多个文件（颗粒化）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># util.js</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  func1: args =&gt; &#123; ... &#125;,</span><br><span class="line">  func2: args =&gt; &#123; ... &#125;,</span><br><span class="line">  func3: args =&gt; &#123; ... &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>将功能分块之后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># util/func1.js</span><br><span class="line"></span><br><span class="line">module.exports = args =&gt; &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line"># util/func2.js</span><br><span class="line"></span><br><span class="line">module.exports = args =&gt; &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line"># util/func3.js</span><br><span class="line"></span><br><span class="line">module.exports = args =&gt; &#123; ... &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>再比如，将一个大功能块分割成多个小功能块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$.getJSON(url, data, res =&gt; &#123;</span><br><span class="line">  // 渲染页面</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  // 初始化组件</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  // 装载数据</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  // 绑定模型</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  // ...</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般这种情况下，一个功能代码块就可能会很长，200 行都有可能，这个时候就需要将其分割成多个小代码块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const renderPages = res =&gt; &#123; ... &#125;;</span><br><span class="line">const initComponents = res =&gt; &#123; ... &#125;;</span><br><span class="line">const fillData = res =&gt; &#123; ... &#125;;</span><br><span class="line">const bindModels = res =&gt; &#123; ... &#125;;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$.getJSON(url, data, res =&gt; &#123;</span><br><span class="line">  // 渲染页面</span><br><span class="line">  renderPages();</span><br><span class="line"></span><br><span class="line">  // 初始化组件</span><br><span class="line">  initComponents();</span><br><span class="line"></span><br><span class="line">  // 装载数据</span><br><span class="line">  fillData()</span><br><span class="line"></span><br><span class="line">  // 绑定模型</span><br><span class="line">  bindModels();</span><br><span class="line"></span><br><span class="line">  // ...</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-多阅读"><a href="#7-多阅读" class="headerlink" title="7. 多阅读"></a>7. 多阅读</h2><p>最后，也是最重要的，就是多阅读别人优秀的代码，阅读永远是获取知识最重要的途径，没有之一。</p>
+<h2 id="8-后续"><a href="#8-后续" class="headerlink" title="8. 后续"></a>8. 后续</h2><p>更多博客，查看 <a target="_blank" rel="noopener" href="https://github.com/deepraining/blogs">https://github.com/deepraining/blogs</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/deepraining">深雨 (@deepraining)</a></p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/../">首页</a></li>
+         
+          <li><a href="/blog/../cv/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">怎样提升代码质量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.</span> <span class="toc-text">1. 开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#js-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">js 开发规范</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#css-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">css 开发规范</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E6%A3%80%E6%9F%A5%E3%80%81%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">2. 使用工具检查、自动矫正与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%A3%80%E6%9F%A5%E4%B8%8E%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 检查与自动矫正</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">运行命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 代码优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">运行命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%BC%BA%E5%88%B6%E5%AF%B9%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%A3%80%E6%9F%A5%E3%80%81%E8%87%AA%E5%8A%A8%E7%9F%AB%E6%AD%A3%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 强制对代码进行检查、自动矫正与优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E8%BE%91%E5%99%A8%E9%85%8D%E7%BD%AE%EF%BC%9A-editorconfig"><span class="toc-number">1.3.</span> <span class="toc-text">3. 编辑器配置：.editorconfig</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E4%BC%98%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">4. 业务逻辑优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%80%BB%E8%BE%91%E8%A7%A3%E8%80%A6"><span class="toc-number">1.5.</span> <span class="toc-text">5. 逻辑解耦</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%8A%9F%E8%83%BD%E5%88%86%E5%9D%97"><span class="toc-number">1.6.</span> <span class="toc-text">6. 功能分块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A4%9A%E9%98%85%E8%AF%BB"><span class="toc-number">1.7.</span> <span class="toc-text">7. 多阅读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.8.</span> <span class="toc-text">8. 后续</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&text=怎样提升代码质量"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&is_video=false&description=怎样提升代码质量"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=怎样提升代码质量&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&title=怎样提升代码质量"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&name=怎样提升代码质量&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/&t=怎样提升代码质量"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    万昕睿
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="服务器端渲染（SSR）与 node 中间层1. 什么时候需要“服务器端渲染或 node 中间层”在前后端分离之后，后端语言的模板功能被弱化，整个页面的渲染基本上都由前端 js 动态渲染，但这样对于一些应用来说是有缺陷的。比如需要 SEO 的，需要打开页面不用等待就能看到页面的，这尤其对于电商类应用是必需的。 解决这个问题有两个思路：  服务器端渲染（SSR）：就是服务器端和前端共用同一个应用，然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器端渲染（SSR）与 node 中间层">
+<meta property="og:url" content="http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="服务器端渲染（SSR）与 node 中间层1. 什么时候需要“服务器端渲染或 node 中间层”在前后端分离之后，后端语言的模板功能被弱化，整个页面的渲染基本上都由前端 js 动态渲染，但这样对于一些应用来说是有缺陷的。比如需要 SEO 的，需要打开页面不用等待就能看到页面的，这尤其对于电商类应用是必需的。 解决这个问题有两个思路：  服务器端渲染（SSR）：就是服务器端和前端共用同一个应用，然后">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-15T12:17:56.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:38:29.658Z">
+<meta property="article:author" content="万昕睿">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>服务器端渲染（SSR）与 node 中间层</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/blog/2023/04/16/%E6%80%8E%E6%A0%B7%E6%8F%90%E5%8D%87%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/blog/2023/04/14/%E6%9C%AC%E5%9C%B0%E5%8C%96%E6%8E%A5%E5%8F%A3%E6%A8%A1%E6%8B%9F%E3%80%81%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B9%B6%E8%A1%8C%E5%BC%80%E5%8F%91/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&text=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&is_video=false&description=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=服务器端渲染（SSR）与 node 中间层&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&name=服务器端渲染（SSR）与 node 中间层&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&t=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E-node-%E4%B8%AD%E9%97%B4%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">服务器端渲染（SSR）与 node 中间层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E2%80%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%E6%88%96-node-%E4%B8%AD%E9%97%B4%E5%B1%82%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 什么时候需要“服务器端渲染或 node 中间层”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93"><span class="toc-number">1.2.</span> <span class="toc-text">2. 服务器端渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-node-%E4%B8%AD%E9%97%B4%E5%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">3. node 中间层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        服务器端渲染（SSR）与 node 中间层
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">万昕睿</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-15T12:17:56.000Z" class="dt-published" itemprop="datePublished">2023-04-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="服务器端渲染（SSR）与-node-中间层"><a href="#服务器端渲染（SSR）与-node-中间层" class="headerlink" title="服务器端渲染（SSR）与 node 中间层"></a>服务器端渲染（SSR）与 node 中间层</h1><h2 id="1-什么时候需要“服务器端渲染或-node-中间层”"><a href="#1-什么时候需要“服务器端渲染或-node-中间层”" class="headerlink" title="1. 什么时候需要“服务器端渲染或 node 中间层”"></a>1. 什么时候需要“服务器端渲染或 node 中间层”</h2><p>在前后端分离之后，后端语言的模板功能被弱化，整个页面的渲染基本上都由前端 <code>js</code> 动态渲染，但这样对于一些应用来说是有缺陷的。比如需要 SEO 的，需要打开页面不用等待就能看到页面的，这尤其对于电商类应用是必需的。</p>
+<p>解决这个问题有两个思路：</p>
+<ol>
+<li>服务器端渲染（SSR）：就是服务器端和前端共用同一个应用，然后通过构建工具及配置，确定哪些组件需要在服务器端渲染，哪些组件需要在客户端渲染；</li>
+<li>node 中间层：保留服务器端模板渲染的功能，但是由 node 程序来代替以往的后端语言进行模板渲染（毕竟前端更懂前端），后端语言与 node 程序只做数据交互。</li>
+</ol>
+<h2 id="2-服务器端渲染"><a href="#2-服务器端渲染" class="headerlink" title="2. 服务器端渲染"></a>2. 服务器端渲染</h2><p>服务器端渲染，由框架与构建工具配合，并依据一定的项目结构和编码方式，共同运行。</p>
+<p>现有比较好解决方案：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/zeit/next.js">next.js</a>: 服务器端渲染 <a target="_blank" rel="noopener" href="https://github.com/facebook/react">react</a> 组件，用法和介绍建议查看 <a target="_blank" rel="noopener" href="https://segmentfault.com/p/1210000010368182/read">用 Next.js 快速上手 React 服务器渲染</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nuxt/nuxt.js">nuxt.js</a>: 服务器端渲染 <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue">vue</a> 组件，用法和介绍建议查看 <a target="_blank" rel="noopener" href="https://zh.nuxtjs.org/">https://zh.nuxtjs.org/</a>。</li>
+</ul>
+<p>对于 react, <a target="_blank" rel="noopener" href="https://github.com/gatsbyjs/gatsby">gatsby</a> 也是一个不错的解决方案。</p>
+<p>服务器端渲染，社区还在不停的探索中，期待未来的新体验。</p>
+<p>如果构建完之后需要自动把代码上传服务器，可以试试 <a target="_blank" rel="noopener" href="https://github.com/deepraining/md-sync">md-sync</a>.</p>
+<h2 id="3-node-中间层"><a href="#3-node-中间层" class="headerlink" title="3. node 中间层"></a>3. node 中间层</h2><p>首先推荐大家看看：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_31333625/article/details/66970196">从 NodeJS 搭建中间层再谈前后端分离</a></li>
+<li><a target="_blank" rel="noopener" href="http://2014.jsconf.cn/slides/herman-taobaoweb/index.html">淘宝前后端分离实践</a></li>
+</ul>
+<p>使用 node 中间层做开发，有一个挑战就是如何让前后端分离的两个项目协同开发与调试。</p>
+<p>一般 web 项目开发时都有热更新（Hot Reloading）与热替换（Hot Replacing）功能，像 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a> 构建工具都有内置这个功能，如果要自己搭建，推荐 <a target="_blank" rel="noopener" href="https://github.com/webpack/webpack-dev-middleware">webpack-dev-middleware</a> &amp; <a target="_blank" rel="noopener" href="https://github.com/webpack-contrib/webpack-hot-middleware">webpack-hot-middleware</a>。</p>
+<p>而一般 node 项目开发时也有类似的功能，推荐使用 <a target="_blank" rel="noopener" href="https://github.com/remy/nodemon">nodemon</a>，它可以监听 node 程序文件变动，然后自动刷新服务器。</p>
+<p>如果能将两者结合起来开发，不管改动 web 项目文件还是 node 项目文件，浏览器页面都能够自动刷新，这样就可以在本地调试 node 中间层的模板输出，克服前后端分离带来的弊端，提高开发效率。</p>
+<p>当然这个功能需要构建工具去特定的支持。以 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a> 工具为例：</p>
+<ol>
+<li>配置 <code>lila.config.js</code> 中 <code>writeFile</code> 为 <code>true</code>: <code>&#123; writeFile: true &#125;</code>;</li>
+<li>运行 <code>lila</code> 模块开发 <code>lila dev test/index</code>;</li>
+<li>运行 node 应用程序 <code>nodemon app.js</code>，并将 url 指定 <code>path/to/web/project/dev/test/index/index.html</code>;</li>
+<li>在浏览器中打开 <code>http://localhost:3000</code>（具体的地址根据 node 应用程序而定）;</li>
+<li>更改 <code>web/project/src/test/index/</code> 下的文件，刷新浏览器可以看到变化;</li>
+<li>更改 node 应用程序文件，刷新浏览器也可以看到变化;</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/deepraining/lila/tree/master/examples/07-node">更详细的使用步骤和示例可以查看这里</a></p>
+<h2 id="4-后续"><a href="#4-后续" class="headerlink" title="4. 后续"></a>4. 后续</h2><p>更多博客，查看 <a target="_blank" rel="noopener" href="https://github.com/deepraining/blogs">https://github.com/deepraining/blogs</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/deepraining">深雨 (@deepraining)</a></p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/../">首页</a></li>
+         
+          <li><a href="/blog/../cv/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E-node-%E4%B8%AD%E9%97%B4%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">服务器端渲染（SSR）与 node 中间层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E2%80%9C%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%E6%88%96-node-%E4%B8%AD%E9%97%B4%E5%B1%82%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 什么时候需要“服务器端渲染或 node 中间层”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93"><span class="toc-number">1.2.</span> <span class="toc-text">2. 服务器端渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-node-%E4%B8%AD%E9%97%B4%E5%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">3. node 中间层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&text=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&is_video=false&description=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=服务器端渲染（SSR）与 node 中间层&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&title=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&name=服务器端渲染（SSR）与 node 中间层&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/15/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%E4%B8%8E%20node%20%E4%B8%AD%E9%97%B4%E5%B1%82/&t=服务器端渲染（SSR）与 node 中间层"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    万昕睿
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="CSS 模块化CSS(Cascading Style Sheets)，从诞生之初就决定了它无法编程，甚至连解释性语言都算不上，只能作为一种简单的层叠样式表，对 HTML 元素进行格式化。 但随着前端的发展，前端项目已经变得越来越庞大和复杂，社区也一直在探索如何以一种有效的方式去管理前端的代码（js&#x2F;css&#x2F;html）和资源（images, fonts, ...）。 在这个过程中，社区探索出了 js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS 模块化">
+<meta property="og:url" content="http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="CSS 模块化CSS(Cascading Style Sheets)，从诞生之初就决定了它无法编程，甚至连解释性语言都算不上，只能作为一种简单的层叠样式表，对 HTML 元素进行格式化。 但随着前端的发展，前端项目已经变得越来越庞大和复杂，社区也一直在探索如何以一种有效的方式去管理前端的代码（js&#x2F;css&#x2F;html）和资源（images, fonts, ...）。 在这个过程中，社区探索出了 js">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-20T12:17:56.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:38:29.411Z">
+<meta property="article:author" content="万昕睿">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CSS 模块化</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&text=CSS 模块化"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&is_video=false&description=CSS 模块化"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS 模块化&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&name=CSS 模块化&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&t=CSS 模块化"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS-%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">CSS 模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E7%BB%84%E5%BC%8F%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">1. 分组式模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">补充：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-css-%E8%AF%AD%E8%A8%80%E6%89%A9%E5%85%85"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 css 语言扩充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A8%A1%E5%9D%97%E5%8C%96%EF%BC%88%E5%AF%BC%E5%87%BA%E4%B8%BA-js-%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">2. 模块化（导出为 js 对象）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%A8%A1%E5%9D%97%E5%8C%96%EF%BC%88%E5%86%85%E7%BD%AE-js%EF%BC%8C%E7%BB%91%E5%AE%9A%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3. 模块化（内置 js，绑定组件）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-styled-jsx"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 styled-jsx</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E5%AE%89%E8%A3%85%E5%B7%A5%E5%85%B7%EF%BC%88babel-%E8%BD%AC%E7%A0%81%E6%89%80%E9%9C%80%EF%BC%89"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.1.1 安装工具（babel 转码所需）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E9%85%8D%E7%BD%AE-babel-plugins%EF%BC%88%E5%A6%82-babelrc%EF%BC%89"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">3.1.2 配置 babel plugins（如 .babelrc）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3-%E6%B7%BB%E5%8A%A0%E6%BA%90%E6%96%87%E4%BB%B6%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">3.1.3 添加源文件代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4-%E8%BD%AC%E7%A0%81"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">3.1.4 转码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-5-%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">3.1.5 运行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CSS 模块化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">万昕睿</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-20T12:17:56.000Z" class="dt-published" itemprop="datePublished">2023-04-20</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="CSS-模块化"><a href="#CSS-模块化" class="headerlink" title="CSS 模块化"></a>CSS 模块化</h1><p>CSS(Cascading Style Sheets)，从诞生之初就决定了它无法编程，甚至连解释性语言都算不上，只能作为一种简单的层叠样式表，对 <code>HTML</code> 元素进行格式化。</p>
+<p>但随着前端的发展，前端项目已经变得越来越庞大和复杂，社区也一直在探索如何以一种有效的方式去管理前端的代码（<code>js/css/html</code>）和资源（<code>images, fonts, ...</code>）。</p>
+<p>在这个过程中，社区探索出了 <code>js</code> 的模块化（<code>amd</code>, <code>commonjs</code>, <code>es6</code>），现在用 <code>js</code> 开发大工程已经游刃有余，而 <code>css</code> 的模块化却还没有特别的深入人心。</p>
+<h2 id="1-分组式模块化"><a href="#1-分组式模块化" class="headerlink" title="1. 分组式模块化"></a>1. 分组式模块化</h2><p>这是最早对 <code>css</code> 模块化的实现，也是最主要的一种方式，包括现在很多组件和开发者都是用这种方式开发的。</p>
+<p>分组式模块化就是用命名的方式，以不同的前缀代表不同的含义，实现样式分组，文件分块，达到模块化的目的。</p>
+<p>比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># 目录结构</span><br><span class="line">|-- one/page/css/ 某个页面的 css 目录</span><br><span class="line">    |-- common.css 通用的 css</span><br><span class="line">    |-- page1/ 单页面1</span><br><span class="line">        |-- section1.css 区域1 css</span><br><span class="line">        |-- section2.css 区域2 css</span><br><span class="line">    |-- page2/ 单页面2</span><br><span class="line">    |-- ...</span><br><span class="line"></span><br><span class="line"># common.css 文件</span><br><span class="line">.c-el-1 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.c-el-2 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># page1/section1.css 文件</span><br><span class="line">.page1-section1 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.page1-section1 .el-1 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.page1-section1 .el-2 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># page1/section2.css 文件</span><br><span class="line">.page1-section2 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.page1-section2 .el-1 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.page1-section2 .el-2 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>这种方式并不是真正意义上的模块化，因为无法避免全局冲突的问题，但原生 css 并不具备编程的能力，所以这个问题是无法避免的。尽管分组式不算真正意义上的模块化，但是这种方式没有脱离 css 原生的机制，所以尤其是第三方组件在导出 css 文件时，很多都使用的是这种方式。</p>
+<p>比如，<a target="_blank" rel="noopener" href="https://github.com/ant-design/ant-design">ant-design</a> 导出的 css 中使用 <code>ant-</code> 前缀标识，<a target="_blank" rel="noopener" href="https://github.com/dcloudio/mui">mui</a> 导出的 css 中使用 <code>mui-</code> 前缀标识等等。</p>
+<h3 id="1-1-最佳实践"><a href="#1-1-最佳实践" class="headerlink" title="1.1 最佳实践"></a>1.1 最佳实践</h3><p>css 命名分组实践的时间很长，从 css 诞生之初就有了，所以社区已经发展很成熟了，比如网易的 css 规范框架 <a target="_blank" rel="noopener" href="http://nec.netease.com/">NEC</a>，<a target="_blank" rel="noopener" href="http://www.h-ui.net/">H-ui</a>。</p>
+<h5 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h5><ul>
+<li>一个 css 文件不宜过大，可以使用 <code>@import</code> 进行文件分块；</li>
+<li>样式渲染尽量不要使用 <code>#id</code> <code>[attr]</code>，应尽量使用 <code>.class</code>；</li>
+<li>使用 js 库操作 dom 时，尽量不要用 <code>.class</code>，应尽量用 <code>#id</code> <code>data-set</code>，如 <code>$(&#39;#main&#39;), $(&#39;[data-tab=&quot;1&quot;]&#39;)</code>。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li data-tab=&quot;1&quot;&gt;tab1&lt;/li&gt;</span><br><span class="line">    &lt;li data-tab=&quot;2&quot;&gt;tab2&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">&lt;div data-tab-container=&quot;1&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div data-tab-container=&quot;2&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-css-语言扩充"><a href="#1-2-css-语言扩充" class="headerlink" title="1.2 css 语言扩充"></a>1.2 css 语言扩充</h3><p>因为 css 不是编程语言，所以不能声明变量、函数，不能做判断、循环和计算，也不能嵌套，所以这就使得写样式是一个效率底下且又枯燥的活儿。</p>
+<p>为了解决这个问题，社区在探索中主要衍生出了两种拓展语言 <a target="_blank" rel="noopener" href="http://lesscss.org/">less</a> 与 <a target="_blank" rel="noopener" href="http://sass-lang.com/">sass</a>，它们兼容 css，并且拓展了编程的功能，主要是带来了以下的特性：</p>
+<ul>
+<li>可以声明变量、函数，可以进行一些简单的计算、判断、循环；</li>
+<li>可以嵌套选择器，这样节省了书写的内容，也更具阅读性；</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.page1-section1 &#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    .el-1 &#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        .el-1-1 &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .el-2 &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>@import</code> 避免重复导入问题，因此可以放心大胆的导入其他文件。</li>
+</ul>
+<p>从模块化的角度来讲，<a target="_blank" rel="noopener" href="http://lesscss.org/">less</a> 与 <a target="_blank" rel="noopener" href="http://sass-lang.com/">sass</a> 只是扩充了 css 的功能，但并没有在语言的层面做模块化，因为全局命名冲突的问题依然还在。</p>
+<h2 id="2-模块化（导出为-js-对象）"><a href="#2-模块化（导出为-js-对象）" class="headerlink" title="2. 模块化（导出为 js 对象）"></a>2. 模块化（导出为 js 对象）</h2><p>想要让 css 具备真正意义上的模块化功能，暂时还不能从语言的层面来考虑，所以只能从工具的角度来实现。</p>
+<p>目前比较好的方式是使用 <code>js</code> 来加载 <code>css</code> 文件，并将 <code>css</code> 的内容导出为一个对象，使用 <code>js</code> 来渲染整个 dom 树和匹配相应的样式到对应的元素上，在这个过程中，我们便有机会对 css 做额外的处理，来达到模块化的目的。</p>
+<p>比如：</p>
+<p><strong><em>源文件</em></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># style.css 文件</span><br><span class="line">.className &#123;</span><br><span class="line">  color: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># js 文件</span><br><span class="line">import styles from &quot;./style.css&quot;;</span><br><span class="line"></span><br><span class="line">element.innerHTML = &#x27;&lt;div class=&quot;&#x27; + styles.className + &#x27;&quot;&gt;Hello!&lt;/div&gt;&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>实际效果</em></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># style.css 文件</span><br><span class="line">._23_aKvs-b8bW2Vg3fwHozO &#123;</span><br><span class="line">  color: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># DOM</span><br><span class="line">&lt;div class=&quot;_23_aKvs-b8bW2Vg3fwHozO&quot;&gt;Hello!&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在这个转换过程中，根据文件的位置、内容生成一个全局唯一的 base64 字符串，替换原来的名称，避免了全局命名冲突的问题，这样便达到了模块化的目的。所以，开发的过程中便无全局样式冲突的问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># common.css 文件</span><br><span class="line">.container &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.el1 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.el2 &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># page1/section1.css 文件</span><br><span class="line">.container &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.title &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.content &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># page2/section1.css 文件</span><br><span class="line">.container &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.title &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">.content &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>对 css 模块化的定义参见 <a target="_blank" rel="noopener" href="https://github.com/css-modules/css-modules">css-modules</a>，其中对 css 书写需求主要是：</p>
+<ol>
+<li>应当用 <code>.class</code>，而非<code>#id</code> <code>[attr]</code>（因为只有 <code>.class</code> 才能导出为对象的属性）；</li>
+<li>推荐用 <code>.className</code> 书写，而非 <code>.class-name</code>（前者可以通过 <code>styles.className</code> 访问，后者需要通过 <code>styles[&#39;class-name&#39;]</code> 才能访问）。</li>
+</ol>
+<p>更多功能可以查看 <a target="_blank" rel="noopener" href="https://github.com/css-modules/css-modules">css-modules</a>。</p>
+<p>当然这个功能需要构建工具的支持，如果你是使用 <a target="_blank" rel="noopener" href="http://webpack.js.org/">webpack</a> 构建工程的话，可以使用 <a target="_blank" rel="noopener" href="https://github.com/webpack-contrib/css-loader">css-loader</a>，并设置 <code>options.modules</code> 为 <code>true</code>， 便可使用模块化的功能了。</p>
+<h2 id="3-模块化（内置-js，绑定组件）"><a href="#3-模块化（内置-js，绑定组件）" class="headerlink" title="3. 模块化（内置 js，绑定组件）"></a>3. 模块化（内置 js，绑定组件）</h2><p>随着前端组件化的发展，组件化框架的更新，如 <a target="_blank" rel="noopener" href="https://github.com/facebook/react">react</a>、<a target="_blank" rel="noopener" href="https://github.com/vuejs/vue">vue</a>，慢慢的发展为把整个组件的资源进行封装，并只对外暴露一个对象，而调用者无需关心组件的内部实现和资源，直接调用这个对象就够了。</p>
+<p>比如（以 react 为例），一个 Welcome 组件，包括一个 js 文件、一个 css 文件、图片：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Welcome 组件</span><br><span class="line">|-- welcome.js</span><br><span class="line">|-- welcome.css</span><br><span class="line">|-- images/</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>welcome.js</code> 中便可如下加载（使用“导出为 js 对象”的 css 模块化）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import styles from &#x27;./welcome.css&#x27;;</span><br><span class="line">import image1 from &#x27;./images/1.jpg&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>其实，还有另外一种思路，就是将 css 内置 js 中，成为 js 的一部分。</em></strong></p>
+<p>这样做的目的，一是 css 的模块化，二是直接绑定到组件上。</p>
+<p>比如，<a target="_blank" rel="noopener" href="https://github.com/mui-org/material-ui">material-ui</a>、<a target="_blank" rel="noopener" href="https://github.com/zeit/styled-jsx">styled-jsx</a>、<a target="_blank" rel="noopener" href="https://github.com/cssinjs/jss">jss</a>、<a target="_blank" rel="noopener" href="https://github.com/vuejs/vue">vue style scoped</a> 便是使用的这种方式。</p>
+<p>这种方式的实现有很多种，这里主要介绍一下 <a target="_blank" rel="noopener" href="https://github.com/zeit/styled-jsx">styled-jsx</a>。</p>
+<h3 id="3-1-styled-jsx"><a href="#3-1-styled-jsx" class="headerlink" title="3.1 styled-jsx"></a>3.1 <a target="_blank" rel="noopener" href="https://github.com/zeit/styled-jsx">styled-jsx</a></h3><p><code>styled-jsx</code> 的原理是根据当前文件的位置、内容生成一个全局唯一的标识，然后把这个标识追加到组件每一个元素上，每一个样式选择器上，达到模块化的目的。</p>
+<p>可以参考<a target="_blank" rel="noopener" href="https://github.com/zeit/styled-jsx">官方文档</a>，查看详细的用法，我在这里给个例子：</p>
+<h4 id="3-1-1-安装工具（babel-转码所需）"><a href="#3-1-1-安装工具（babel-转码所需）" class="headerlink" title="3.1.1 安装工具（babel 转码所需）"></a>3.1.1 安装工具（babel 转码所需）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save styled-jsx</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-配置-babel-plugins（如-babelrc）"><a href="#3-1-2-配置-babel-plugins（如-babelrc）" class="headerlink" title="3.1.2 配置 babel plugins（如 .babelrc）"></a>3.1.2 配置 babel plugins（如 <code>.babelrc</code>）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    &quot;styled-jsx/babel&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-3-添加源文件代码"><a href="#3-1-3-添加源文件代码" class="headerlink" title="3.1.3 添加源文件代码"></a>3.1.3 添加源文件代码</h4><p><code>hello.js</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; (</span><br><span class="line">    &lt;div className=&#123;&#x27;container&#x27;&#125;&gt;</span><br><span class="line">        &lt;p className=&#123;&#x27;hello&#x27;&#125;&gt;Hello! Hello!&lt;/p&gt;</span><br><span class="line">        &lt;div id=&#123;&#x27;hi&#x27;&#125;&gt;Hi!&lt;/div&gt;</span><br><span class="line">        &lt;style jsx&gt;&#123;`</span><br><span class="line">          .container &#123;</span><br><span class="line">            color: blue;</span><br><span class="line">          &#125;</span><br><span class="line">          p:first-child &#123;</span><br><span class="line">            color: red;</span><br><span class="line">          &#125;</span><br><span class="line">          .hello &#123;</span><br><span class="line">            color: yellow;</span><br><span class="line">          &#125;</span><br><span class="line">          #hi &#123;</span><br><span class="line">            color: green;</span><br><span class="line">          &#125;</span><br><span class="line">        `&#125;&lt;/style&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-4-转码"><a href="#3-1-4-转码" class="headerlink" title="3.1.4 转码"></a>3.1.4 转码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">babel path/to/hello.js -d target/dir</span><br></pre></td></tr></table></figure>
+
+<p>转码后的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import _JSXStyle from &#x27;styled-jsx/style&#x27;;</span><br><span class="line"></span><br><span class="line">export default () =&gt; (</span><br><span class="line">    &lt;div className=&#123;&#x27;jsx-234963469&#x27; + &#x27; &#x27; + &#x27;container&#x27;&#125;&gt;</span><br><span class="line">        &lt;p className=&#123;&#x27;jsx-234963469&#x27; + &#x27; &#x27; + &#x27;hello&#x27;&#125;&gt;Hello! Hello!&lt;/p&gt;</span><br><span class="line">        &lt;div id=&#123;&#x27;hi&#x27;&#125; className=&#123;&quot;jsx-234963469&quot;&#125;&gt;Hi!&lt;/div&gt;</span><br><span class="line">        &lt;_JSXStyle styleId=&#123;&quot;234963469&quot;&#125; css=&#123;&quot;.container.jsx-234963469&#123;color:blue;&#125;p.jsx-234963469:first-child&#123;color:red;&#125;.hello.jsx-234963469&#123;color:yellow;&#125;#hi.jsx-234963469&#123;color:green;&#125;&quot;&#125; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-5-运行"><a href="#3-1-5-运行" class="headerlink" title="3.1.5 运行"></a>3.1.5 运行</h4><p>实际渲染效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot; data-styled-jsx=&quot;&quot;&gt;</span><br><span class="line">.container.jsx-234963469&#123;</span><br><span class="line">  color:blue;</span><br><span class="line">&#125;</span><br><span class="line">p.jsx-234963469:first-child&#123;</span><br><span class="line">  color:red;</span><br><span class="line">&#125;</span><br><span class="line">.hello.jsx-234963469&#123;</span><br><span class="line">  color:yellow;</span><br><span class="line">&#125;</span><br><span class="line">#hi.jsx-234963469&#123;</span><br><span class="line">  color:green;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;jsx-234963469 container&quot;&gt;</span><br><span class="line">  &lt;p class=&quot;jsx-234963469 hello&quot;&gt;Hello! Hello!&lt;/p&gt;</span><br><span class="line">  &lt;div id=&quot;hi&quot; class=&quot;jsx-234963469&quot;&gt;Hi!&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-后续"><a href="#4-后续" class="headerlink" title="4. 后续"></a>4. 后续</h2><p>更多博客，查看 <a target="_blank" rel="noopener" href="https://github.com/deepraining/blogs">https://github.com/deepraining/blogs</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/deepraining">深雨 (@deepraining)</a></p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/../">首页</a></li>
+         
+          <li><a href="/blog/../cv/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS-%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">CSS 模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E7%BB%84%E5%BC%8F%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">1. 分组式模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">补充：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-css-%E8%AF%AD%E8%A8%80%E6%89%A9%E5%85%85"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 css 语言扩充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A8%A1%E5%9D%97%E5%8C%96%EF%BC%88%E5%AF%BC%E5%87%BA%E4%B8%BA-js-%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">2. 模块化（导出为 js 对象）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%A8%A1%E5%9D%97%E5%8C%96%EF%BC%88%E5%86%85%E7%BD%AE-js%EF%BC%8C%E7%BB%91%E5%AE%9A%E7%BB%84%E4%BB%B6%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3. 模块化（内置 js，绑定组件）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-styled-jsx"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 styled-jsx</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E5%AE%89%E8%A3%85%E5%B7%A5%E5%85%B7%EF%BC%88babel-%E8%BD%AC%E7%A0%81%E6%89%80%E9%9C%80%EF%BC%89"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.1.1 安装工具（babel 转码所需）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E9%85%8D%E7%BD%AE-babel-plugins%EF%BC%88%E5%A6%82-babelrc%EF%BC%89"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">3.1.2 配置 babel plugins（如 .babelrc）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3-%E6%B7%BB%E5%8A%A0%E6%BA%90%E6%96%87%E4%BB%B6%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">3.1.3 添加源文件代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-4-%E8%BD%AC%E7%A0%81"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">3.1.4 转码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-5-%E8%BF%90%E8%A1%8C"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">3.1.5 运行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&text=CSS 模块化"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&is_video=false&description=CSS 模块化"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CSS 模块化&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&title=CSS 模块化"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&name=CSS 模块化&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/&t=CSS 模块化"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    万昕睿
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

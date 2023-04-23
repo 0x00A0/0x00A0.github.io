@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前端开发规范1. 为什么需要 “前端开发规范”规范不是强制性的，对代码的编写和程序的运行不会有致命的问题，但是没有规范会有一系列的问题，比如：  缺乏规范，第一个问题就是团队编码风格不一，增加了成员之间代码的阅读成本，加大了团队协作成本和维护成本； 随着团队人员的变化（多人开发一个应用，或者应用更换开发人员），如果缺乏规范，项目可能会变得一团糟，甚至失控； 即便是个人开发，规范也是需要的，当把项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发规范">
+<meta property="og:url" content="http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="前端开发规范1. 为什么需要 “前端开发规范”规范不是强制性的，对代码的编写和程序的运行不会有致命的问题，但是没有规范会有一系列的问题，比如：  缺乏规范，第一个问题就是团队编码风格不一，增加了成员之间代码的阅读成本，加大了团队协作成本和维护成本； 随着团队人员的变化（多人开发一个应用，或者应用更换开发人员），如果缺乏规范，项目可能会变得一团糟，甚至失控； 即便是个人开发，规范也是需要的，当把项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-17T12:29:41.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:38:29.489Z">
+<meta property="article:author" content="万昕睿">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>前端开发规范</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/blog/2023/04/18/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/blog/2023/04/17/%E5%8D%95%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8%EF%BC%88SPA%EF%BC%89%E3%80%81%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&text=前端开发规范"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&is_video=false&description=前端开发规范"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端开发规范&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&name=前端开发规范&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&t=前端开发规范"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.</span> <span class="toc-text">前端开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-%E2%80%9C%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 为什么需要 “前端开发规范”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">2. 开发规范分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 编码规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 项目结构规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%A1%86%E6%9E%B6%E3%80%81%E5%B7%A5%E5%85%B7%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 框架、工具规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E5%92%8C-UI-%E5%BA%93"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">框架和 UI 库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">构建工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%85%B6%E4%BB%96%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4 其他约定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.3.</span> <span class="toc-text">3. 后续</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        前端开发规范
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">万昕睿</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-17T12:29:41.000Z" class="dt-published" itemprop="datePublished">2023-04-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="前端开发规范"><a href="#前端开发规范" class="headerlink" title="前端开发规范"></a>前端开发规范</h1><h2 id="1-为什么需要-“前端开发规范”"><a href="#1-为什么需要-“前端开发规范”" class="headerlink" title="1. 为什么需要 “前端开发规范”"></a>1. 为什么需要 “前端开发规范”</h2><p>规范不是强制性的，对代码的编写和程序的运行不会有致命的问题，但是没有规范会有一系列的问题，比如：</p>
+<ul>
+<li>缺乏规范，第一个问题就是团队编码风格不一，增加了成员之间代码的阅读成本，加大了团队协作成本和维护成本；</li>
+<li>随着团队人员的变化（多人开发一个应用，或者应用更换开发人员），如果缺乏规范，项目可能会变得一团糟，甚至失控；</li>
+<li>即便是个人开发，规范也是需要的，当把项目转给其他人的时候，如果有规范的话，会大大降低阅读成本。</li>
+<li>…</li>
+</ul>
+<p>所以，建立一套适合团队的开发规范是很受用的。</p>
+<h2 id="2-开发规范分类"><a href="#2-开发规范分类" class="headerlink" title="2. 开发规范分类"></a>2. 开发规范分类</h2><p>这里不涉及工作流程规范，因为每个团队的工作流程都不一样，这是跟公司相关的，与开发没有太大关系。一般来说，有以下几类规范：</p>
+<ul>
+<li>编码规范</li>
+<li>项目结构规范</li>
+<li>框架、工具规范</li>
+<li>其他约定</li>
+</ul>
+<h3 id="2-1-编码规范"><a href="#2-1-编码规范" class="headerlink" title="2.1 编码规范"></a>2.1 编码规范</h3><ul>
+<li><p><code>html</code>: 主要有缩进，标签，加载顺序等等。可以参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://imweb.github.io/CodeGuide/">Code Guide</a></li>
+</ul>
+</li>
+<li><p><code>css</code>：主要有缩进，换行，引号，注释等等。可以参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/necolas/idiomatic-css">idiomatic-css</a></li>
+</ul>
+</li>
+<li><p><code>js</code>：主要有缩进，换行，变量名称，括号，文档注释等等。可以参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript">airbnb js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/styleguide/jsguide.html">google js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rwaldron/idiomatic.js">idiomatic js style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/standard/standard">standard js style</a></li>
+</ul>
+</li>
+</ul>
+<p>其实，我一般参考的是 <a target="_blank" rel="noopener" href="http://imweb.github.io/CodeGuide/">Code Guide</a></p>
+<h3 id="2-2-项目结构规范"><a href="#2-2-项目结构规范" class="headerlink" title="2.2 项目结构规范"></a>2.2 项目结构规范</h3><p>项目结构规范包括文件、目录命名规范，模块化分组规范，组件化规范等等，这些规范有些是构建工具要求的，有些是团队自己定的。</p>
+<p>以下是一些示例：</p>
+<ul>
+<li><p>命名规范：参考 <a target="_blank" rel="noopener" href="http://imweb.github.io/CodeGuide/">Code Guide</a></p>
+<ul>
+<li>全部采用小写方式， 以下划线分隔。例：<code>my_project_name</code></li>
+<li>完整英文命名的用复数形式，缩写用单数形式。例：<code>scripts, js, styles, css, images, img</code></li>
+</ul>
+</li>
+<li><p>模块化分组规范：以 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a> 构建工具为例</p>
+<ul>
+<li><code>/project/src/home/</code>: home 页的工作空间（以下所有文件或目录都在这个目录下）</li>
+<li><code>index.html</code>: html 入口文件</li>
+<li><code>index.js</code>: js 入口文件</li>
+<li><code>index.(css|less|scss)</code>: 样式入口文件</li>
+<li><code>js/</code>: js 文件目录<ul>
+<li><code>js/ajax/</code>: 对 ajax 封装的目录</li>
+<li><code>js/util/</code>: 工具类函数的目录</li>
+<li><code>js/pages/</code>: spa 应用页面目录</li>
+<li><code>js/data/</code>: 静态数据目录</li>
+<li><code>js/tpl/</code>: 模板目录</li>
+<li><code>js/(event|view)/</code>: 事件监听文件目录</li>
+<li>…</li>
+</ul>
+</li>
+<li><code>data/</code>: 本地 json 数据模拟</li>
+<li><code>(css|less|scss)/</code>: 样式文件目录</li>
+<li><code>images/</code>: 图片文件目录</li>
+<li><code>components/</code>: 组件目录（如果基于 <a target="_blank" rel="noopener" href="https://github.com/facebook/react">react</a>, <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue">vue</a> 等组件化框架）</li>
+<li>…</li>
+</ul>
+</li>
+<li><p>组件化规范：这里的组件化并不是指在代码、框架层面的组件化，而是在架构和规范层面的组件化</p>
+<ul>
+<li><code>/project/src/component/hello/</code>: hello 组件的工作空间（以下所有文件或目录都在这个目录下）</li>
+<li><code>README.md</code>: 组件的说明，包括功能介绍、api 文档、一些用例等等</li>
+<li><code>index.js</code>: 组件的入口文件，调用组件将使用如下的方式（如果有样式文件，则要在 js 中加载）<ul>
+<li><code>commonjs</code>: <code>const hello = require(&#39;component/hello&#39;)</code></li>
+<li><code>es6</code>: <code>import hello from &#39;component/hello&#39;</code></li>
+</ul>
+</li>
+<li><code>demo/</code>：用例目录</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-框架、工具规范"><a href="#2-3-框架、工具规范" class="headerlink" title="2.3 框架、工具规范"></a>2.3 框架、工具规范</h3><h4 id="框架和-UI-库"><a href="#框架和-UI-库" class="headerlink" title="框架和 UI 库"></a>框架和 UI 库</h4><ul>
+<li>在技术上，每个团队都有框架选型，都遵循一定的规范协作。基本上从团队搭建之初便需要定下今后团队的技术选型，并且最好不要更改选定好的框架和 UI 库，因为不同的框架、不同的 UI 库一般相互之间是不兼容的；同时用多个框架或 UI 库也是要尽量避免的；</li>
+<li>框架选型：经典的 <a target="_blank" rel="noopener" href="https://github.com/jquery/jquery">jquery</a> + <a target="_blank" rel="noopener" href="https://github.com/twbs/bootstrap">bootstrap</a>，比较现代化的 <a target="_blank" rel="noopener" href="https://github.com/facebook/react">react</a> + <a target="_blank" rel="noopener" href="https://github.com/ant-design/ant-design">ant-design</a>|<a target="_blank" rel="noopener" href="https://github.com/mui-org/material-ui">material-ui</a>|<a target="_blank" rel="noopener" href="https://github.com/Semantic-Org/Semantic-UI">Semantic-UI</a> （因为我主要是以 react 为组件库做开发，所以对 <a target="_blank" rel="noopener" href="https://github.com/vuejs/vue">vue</a> 的技术选型不是很了解，&gt;_&lt;）</li>
+</ul>
+<h4 id="构建工具"><a href="#构建工具" class="headerlink" title="构建工具"></a>构建工具</h4><p>构建工具的使用使开发变得极为便利和高效，工具在提升工作效率的同时，也同时提供了约束团队编码规范、项目结构规范等的可能性。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/eslint/eslint">eslint</a>：一个语法规则和代码风格的检查工具，可以用来保证写出语法正确、风格统一的代码。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stylelint/stylelint">stylelint</a>：一个强大和现代的 CSS 审查工具，有助于开发者推行统一的代码规范，避免样式错误。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CSSLint/csslint">csslint</a>：与 <code>stylelint</code> 类似</li>
+</ul>
+<p>约束项目结构规范需要团队讨论来定，但基本上需要满足以下几个需求：</p>
+<ul>
+<li>便利性：能够快速的定位文件位置，对编辑器友好</li>
+<li>解耦性：不同页面之间，不同组件之间是相互解耦的，不会更改一个组件或页面而影响到其他组件或页面</li>
+<li>扩展性：能够很方便的扩展组件和页面，而不会带来副作用</li>
+<li>阅读性：具有很好的阅读性，对组件、页面以及内部结构能够一目了然</li>
+</ul>
+<p>以 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a> 构建工具为例，它的 <code>工作空间</code> 概念便很好的满足上述所有需求：</p>
+<p>比如，home 页的工作空间（<code>/project/src/home/</code>），这个页面（或者组件）所有文件都在这个目录下，包括 js、css、html 片段、图片、json 模拟数据等等。</p>
+<ul>
+<li>开发的时候，都只在这个目录下工作，避免多级目录的不断切换（当工程很大的时候，这是个大问题）</li>
+<li>当新添加一个页面或组件的时候，直接复制一个原有的页面或组件，这是极为方便的</li>
+<li>解耦当然就不用说了，内部结构也是很清晰的</li>
+</ul>
+<h3 id="2-4-其他约定"><a href="#2-4-其他约定" class="headerlink" title="2.4 其他约定"></a>2.4 其他约定</h3><p>如：</p>
+<ul>
+<li>每个 js 文件不应该超过 <code>400</code> 行，超过就应该分块</li>
+<li>每个 css 文件不应该超过 <code>200</code> 行，超过就应该分块</li>
+<li>…</li>
+</ul>
+<h2 id="3-后续"><a href="#3-后续" class="headerlink" title="3. 后续"></a>3. 后续</h2><p>更多博客，查看 <a target="_blank" rel="noopener" href="https://github.com/deepraining/blogs">https://github.com/deepraining/blogs</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/deepraining">深雨 (@deepraining)</a></p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/../">首页</a></li>
+         
+          <li><a href="/blog/../cv/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83"><span class="toc-number">1.</span> <span class="toc-text">前端开发规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-%E2%80%9C%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 为什么需要 “前端开发规范”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">2. 开发规范分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 编码规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 项目结构规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%A1%86%E6%9E%B6%E3%80%81%E5%B7%A5%E5%85%B7%E8%A7%84%E8%8C%83"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 框架、工具规范</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E5%92%8C-UI-%E5%BA%93"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">框架和 UI 库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">构建工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%85%B6%E4%BB%96%E7%BA%A6%E5%AE%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.4 其他约定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.3.</span> <span class="toc-text">3. 后续</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&text=前端开发规范"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&is_video=false&description=前端开发规范"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前端开发规范&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&title=前端开发规范"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&name=前端开发规范&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/17/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&t=前端开发规范"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    万昕睿
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

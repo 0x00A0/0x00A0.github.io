@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前后端分离、web 与 static 服务器分离1. 为什么需要 “前后端分离、web 与 static 服务器分离”web 前端的发展历史大致可以分为两个阶段：node 之前与 node 之后。在 nodejs 出现之前，前端的发展一直比较缓慢，主要是因为：  html&#x2F;css&#x2F;js 从设计之初开始，都只为浏览器服务，并且在整个 web 程序中，是以后端为主，前端为辅，前端需要配合不同的后端做出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前后端分离、web 与 static 服务器分离">
+<meta property="og:url" content="http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="前后端分离、web 与 static 服务器分离1. 为什么需要 “前后端分离、web 与 static 服务器分离”web 前端的发展历史大致可以分为两个阶段：node 之前与 node 之后。在 nodejs 出现之前，前端的发展一直比较缓慢，主要是因为：  html&#x2F;css&#x2F;js 从设计之初开始，都只为浏览器服务，并且在整个 web 程序中，是以后端为主，前端为辅，前端需要配合不同的后端做出">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-19T12:17:56.000Z">
+<meta property="article:modified_time" content="2023-04-23T12:38:29.559Z">
+<meta property="article:author" content="万昕睿">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/blog/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/blog/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>前后端分离、web 与 static 服务器分离</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/blog/2023/04/20/CSS%20%E6%A8%A1%E5%9D%97%E5%8C%96/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/blog/2023/04/18/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&text=前后端分离、web 与 static 服务器分离"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&is_video=false&description=前后端分离、web 与 static 服务器分离"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前后端分离、web 与 static 服务器分离&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&name=前后端分离、web 与 static 服务器分离&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&t=前后端分离、web 与 static 服务器分离"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB"><span class="toc-number">1.</span> <span class="toc-text">前后端分离、web 与 static 服务器分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-%E2%80%9C%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 为什么需要 “前后端分离、web 与 static 服务器分离”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.</span> <span class="toc-text">2. 前后端分离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%B7%A5%E7%A8%8B%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 工程分离</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9E%8D%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7%E7%9A%84%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">融合在一起的示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E4%B9%8B%E5%90%8E%E7%9A%84-django-%E9%A1%B9%E7%9B%AE%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">分离之后的 django 项目示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E4%B9%8B%E5%90%8E%E7%9A%84-web-%E9%A1%B9%E7%9B%AE%E7%A4%BA%E4%BE%8B%EF%BC%88%E4%BB%A5-lila-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E4%B8%BA%E4%BE%8B%EF%BC%89%EF%BC%9A"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">分离之后的 web 项目示例（以 lila 构建工具为例）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E6%B5%81%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 数据流分离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB"><span class="toc-number">1.3.</span> <span class="toc-text">3. web 与 static 服务器分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        前后端分离、web 与 static 服务器分离
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">万昕睿</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-19T12:17:56.000Z" class="dt-published" itemprop="datePublished">2023-04-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="前后端分离、web-与-static-服务器分离"><a href="#前后端分离、web-与-static-服务器分离" class="headerlink" title="前后端分离、web 与 static 服务器分离"></a>前后端分离、web 与 static 服务器分离</h1><h2 id="1-为什么需要-“前后端分离、web-与-static-服务器分离”"><a href="#1-为什么需要-“前后端分离、web-与-static-服务器分离”" class="headerlink" title="1. 为什么需要 “前后端分离、web 与 static 服务器分离”"></a>1. 为什么需要 “前后端分离、web 与 static 服务器分离”</h2><p>web 前端的发展历史大致可以分为两个阶段：<code>node</code> 之前与 <code>node</code> 之后。在 <a target="_blank" rel="noopener" href="https://github.com/nodejs/node">nodejs</a> 出现之前，前端的发展一直比较缓慢，主要是因为：</p>
+<ul>
+<li><code>html/css/js</code> 从设计之初开始，都只为浏览器服务，并且在整个 web 程序中，是以后端为主，前端为辅，前端需要配合不同的后端做出调整（如不同后端语言的模板），因此前端程序往往是与后端程序耦合在一起的；</li>
+<li>开发、调试、运行都始终摆脱不了浏览器，并且没有多少可选的工具（如 combo，都是由后端语言在服务器端实现的），不能自动化、工程化的构建前端的代码；</li>
+<li>由于浏览器的运行方式，前端代码一直不能有效的做到模块化、组件化，项目也无法版本化管理，项目间也不能很好的共享代码；</li>
+<li>浏览器运行速度低下，也是早期前端发展的一大障碍，但 <a target="_blank" rel="noopener" href="https://chromium.googlesource.com/">chromium</a> 项目的出现，让前端的运行架上了高铁的速度。</li>
+</ul>
+<p>基于以上的原因，前端一直不能很好的开发大型应用，所以在 web 程序中，前端一直处于配角的角色。在 <a target="_blank" rel="noopener" href="https://github.com/nodejs/node">nodejs</a> 出现之后，前端的发展迎来了质的飞跃，带来了我们当时无法想象的便利与潜力。</p>
+<ul>
+<li><code>node</code> 拓展了 <code>javascript</code> 的运行环境，并且能够开发服务器端程序，这让前端的开发和运行摆脱对浏览器和后端语言的依赖，让它们成为了可选项；</li>
+<li><code>node</code> 使 <code>javascript</code> 拥有了操作本地文件、IO 等权限，于是前端开发人员便可编写各类工具，前端便可做到自动化和工程化；</li>
+<li>再结合 <code>npm</code>，前端代码的模块化、组件化，项目版本化，项目间共享代码也就不是问题了。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/nodejs/node">nodejs</a> 出现了之后，又陆续出现了扩展前端运行领域的工具，如</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/electron/electron">electron</a>, <a target="_blank" rel="noopener" href="https://github.com/nwjs/nw.js">nw.js</a>: 让前端可以开发桌面软件；</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react-native">react-native</a>: 让前端可以开发原生 app。</li>
+</ul>
+<p>随着 <code>node</code> 的出现与前端的发展，工程化自动构建便成了开发人员的一个基本需求，这便是我要说的 “前后端分离、web 与 static 服务器分离”；</p>
+<h2 id="2-前后端分离"><a href="#2-前后端分离" class="headerlink" title="2. 前后端分离"></a>2. 前后端分离</h2><p>前后端分离，就是让前端与后端解耦，开发和运行都不再耦合在一起。这样，前端开发人员便可更好的掌控自己的代码，对自己的代码进行调试，优化等等。</p>
+<h3 id="2-1-工程分离"><a href="#2-1-工程分离" class="headerlink" title="2.1 工程分离"></a>2.1 工程分离</h3><p>首先是工程的分离，也就是代码的分离。这就是说让原来前后端融合在一起的项目分离开，前端一个项目，后端一个项目。</p>
+<p>以 python 的 <a target="_blank" rel="noopener" href="https://github.com/django/django">django</a> 框架为例：</p>
+<h4 id="融合在一起的示例："><a href="#融合在一起的示例：" class="headerlink" title="融合在一起的示例："></a>融合在一起的示例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">|-- app/                     # 应用主目录</span><br><span class="line">    |-- templates/           # html 模板目录</span><br><span class="line">        |-- app/</span><br><span class="line">            |-- home.html    # 主页html</span><br><span class="line">            |-- login.html   # 登陆页html</span><br><span class="line">            |-- about.html   # 关于页html</span><br><span class="line">            |-- ...</span><br><span class="line">    |-- static/              # 静态资源目录</span><br><span class="line">        |-- js/              # js资源目录</span><br><span class="line">            |-- lib/         # js library 资源目录</span><br><span class="line">            |-- page1/       # 页面1 js资源目录</span><br><span class="line">            |-- page2/       # 页面2 js资源目录</span><br><span class="line">            |-- ...</span><br><span class="line">        |-- css/             # css资源目录</span><br><span class="line">        |-- images/           # 图片资源目录</span><br><span class="line">        |-- ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    |-- admin.py             # 配置模型models在django原生后台的管理</span><br><span class="line">    |-- apps.py              # 应用级别的配置</span><br><span class="line">    |-- forms.py             # 表单处理逻辑</span><br><span class="line">    |-- managers.py          # 模型处理逻辑</span><br><span class="line">    |-- models.py            # 模型定义</span><br><span class="line">    |-- urls.py              # 路由设置</span><br><span class="line">    |-- views.py             # 控制层</span><br><span class="line">    |-- tests.py</span><br></pre></td></tr></table></figure>
+
+<h4 id="分离之后的-django-项目示例："><a href="#分离之后的-django-项目示例：" class="headerlink" title="分离之后的 django 项目示例："></a>分离之后的 <a target="_blank" rel="noopener" href="https://github.com/django/django">django</a> 项目示例：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|-- app/                     # 应用主目录</span><br><span class="line">    |-- admin.py             # 配置模型models在django原生后台的管理</span><br><span class="line">    |-- apps.py              # 应用级别的配置</span><br><span class="line">    |-- forms.py             # 表单处理逻辑</span><br><span class="line">    |-- managers.py          # 模型处理逻辑</span><br><span class="line">    |-- models.py            # 模型定义</span><br><span class="line">    |-- urls.py              # 路由设置</span><br><span class="line">    |-- views.py             # 控制层</span><br><span class="line">    |-- tests.py</span><br></pre></td></tr></table></figure>
+
+<h4 id="分离之后的-web-项目示例（以-lila-构建工具为例）："><a href="#分离之后的-web-项目示例（以-lila-构建工具为例）：" class="headerlink" title="分离之后的 web 项目示例（以 lila 构建工具为例）："></a>分离之后的 web 项目示例（以 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a> 构建工具为例）：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|-- src/</span><br><span class="line">    |-- app/</span><br><span class="line">        |-- home/            # 主页工作目录</span><br><span class="line">            |-- index.html   # html 入口文件</span><br><span class="line">            |-- index.js     # js 入口文件</span><br><span class="line">            |-- ...</span><br><span class="line">        |-- login/           # 登陆页工作目录</span><br><span class="line">        |-- about/           # 关于页工作目录</span><br><span class="line">        |-- ...</span><br></pre></td></tr></table></figure>
+
+<p>本地开发完成后，把构建好的文件传到服务器相应的位置就好了，像上面的例子就需要把 <code>html</code> 文件传到 <code>app/templates</code> 目录下，静态资源文件传到 <code>app/static</code> 目录下。（构建的时候要处理好文件路径引用）</p>
+<h3 id="2-2-数据流分离"><a href="#2-2-数据流分离" class="headerlink" title="2.2 数据流分离"></a>2.2 数据流分离</h3><ul>
+<li>前后端数据交流使用 <code>json</code> 数据格式，并且推荐使用全 <code>ajax</code> 的方式获取数据，不用传统的模板交流或渲染数据，如 <code>java &gt; jsp</code>、<code>php &gt; smarty</code>；</li>
+<li>但有时候为了加快前端响应速度，也可以把 <code>json</code> 数据通过模板返回，但要避免使用后端模板进行逻辑判断渲染。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">var data = JSON.parse(&#x27;通过后端模板返回的 json 数据&#x27;);</span><br><span class="line"></span><br><span class="line">// 使用 js 渲染 data 数据</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-web-与-static-服务器分离"><a href="#3-web-与-static-服务器分离" class="headerlink" title="3. web 与 static 服务器分离"></a>3. web 与 static 服务器分离</h2><ul>
+<li><code>web 服务器</code>：存放运行后端 web 应用的程序，以及前端 <code>html</code> 文件（入口文件）</li>
+<li><code>static 服务器</code>：静态资源服务器，存放前端除 <code>html</code> 文件之外的其他资源文件，包括 <code>js</code>， <code>css</code>， <code>images</code>…</li>
+</ul>
+<p>一般地，还是以 django 框架为例，当前端把代码构建好之后，静态资源传到服务器相应的 <code>static</code> 目录，<code>html</code> 文件传到相应的 <code>templates</code> 目录，启动后端脚本就可运行了。两者不分离主要有以下几个缺点：</p>
+<ul>
+<li>前端构建过程中会产生大量的冗余文件，这对后端程序来说十分不友好，比如后端打包程序备份的时候，就会导致包很大；</li>
+<li>不方便前端开发人员管理线上代码，并且前端人员能够直接接触到后端代码，也不够安全；</li>
+<li>静态资源会占用 web 服务器的资源和带宽，当访问量变大的时候，web 与 static 服务器分离是必然的。</li>
+</ul>
+<p>web 与 static 服务器分离之后，前端开发人员便可无顾虑的备份前端代码，清除冗余代码等等。</p>
+<ul>
+<li>大多数情况下，会有多个项目共用同一个 static 服务器，如此便需要在服务器划分多个目录来存放静态资源文件；</li>
+<li>构建的过程中，构建工具需要保证 <code>html</code> 对 <code>js/css/images...</code> 路径的正确引用，以及 <code>css</code> 对 <code>images...</code> 路径的正确引用，以 <a target="_blank" rel="noopener" href="https://github.com/deepraining/lila">lila</a>为例，需要配置 <code>staticServerUrl</code> 为 <code>http://www.static.com/project1</code></li>
+</ul>
+<h2 id="4-后续"><a href="#4-后续" class="headerlink" title="4. 后续"></a>4. 后续</h2><p>更多博客，查看 <a target="_blank" rel="noopener" href="https://github.com/deepraining/blogs">https://github.com/deepraining/blogs</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/deepraining">深雨 (@deepraining)</a></p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名（<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享 3.0 许可证</a>）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/blog/../">首页</a></li>
+         
+          <li><a href="/blog/../cv/">关于</a></li>
+         
+          <li><a href="/blog/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB"><span class="toc-number">1.</span> <span class="toc-text">前后端分离、web 与 static 服务器分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-%E2%80%9C%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB%E2%80%9D"><span class="toc-number">1.1.</span> <span class="toc-text">1. 为什么需要 “前后端分离、web 与 static 服务器分离”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.</span> <span class="toc-text">2. 前后端分离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%B7%A5%E7%A8%8B%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 工程分离</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9E%8D%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7%E7%9A%84%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">融合在一起的示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E4%B9%8B%E5%90%8E%E7%9A%84-django-%E9%A1%B9%E7%9B%AE%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">分离之后的 django 项目示例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E4%B9%8B%E5%90%8E%E7%9A%84-web-%E9%A1%B9%E7%9B%AE%E7%A4%BA%E4%BE%8B%EF%BC%88%E4%BB%A5-lila-%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E4%B8%BA%E4%BE%8B%EF%BC%89%EF%BC%9A"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">分离之后的 web 项目示例（以 lila 构建工具为例）：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E6%B5%81%E5%88%86%E7%A6%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 数据流分离</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-web-%E4%B8%8E-static-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB"><span class="toc-number">1.3.</span> <span class="toc-text">3. web 与 static 服务器分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%8E%E7%BB%AD"><span class="toc-number">1.4.</span> <span class="toc-text">4. 后续</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&text=前后端分离、web 与 static 服务器分离"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&is_video=false&description=前后端分离、web 与 static 服务器分离"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=前后端分离、web 与 static 服务器分离&body=Check out this article: http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&title=前后端分离、web 与 static 服务器分离"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&name=前后端分离、web 与 static 服务器分离&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://my.0x00a0.cn/blog/2023/04/19/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E3%80%81web%20%E4%B8%8E%20static%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%86%E7%A6%BB/&t=前后端分离、web 与 static 服务器分离"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023
+    万昕睿
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/blog/../">首页</a></li><!--
+     --><!--
+       --><li><a href="/blog/../cv/">关于</a></li><!--
+     --><!--
+       --><li><a href="/blog/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/0x00A0">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/blog/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

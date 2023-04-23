@@ -1,0 +1,37 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('../fonts/iconfont.ttf?t=1682240113867') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 26px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bilibili:before {
+  content: "\e609";
+}
+
+.icon-discord:before {
+  content: "\e60b";
+}
+
+.icon-github:before {
+  content: "\e60a";
+}
+
+.icon-wechat:before {
+  content: "\e60c";
+}
+
+.icon-logo-500px:before {
+  content: "\e60d";
+}
+
+.icon-steam:before {
+  content: "\e610";
+}
+
