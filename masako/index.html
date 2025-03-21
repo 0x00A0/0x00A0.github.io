@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Generator for Masako</title>
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --background: #f5f6fa;
+      --card-bg: #ffffff;
+      --text: #2d3436;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #574b90;
+      transform: translateY(-2px);
+    }
+
+    #result {
+      margin-top: 3rem;
+      background-color: var(--card-bg);
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px var(--shadow);
+      font-size: 1.25rem;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎻 Practice Generator for Masako</h1>
+  <div class="button-group">
+    <button onclick="generate(1)">Scales</button>
+    <button onclick="generate(2)">Arpeggios</button>
+    <button onclick="generate(3)">Chromatic Scales</button>
+    <button onclick="generate(4)">Double Stops</button>
+  </div>
+
+  <div id="result">Click a button to generate a practice task.</div>
+
+  <script>
+    const bowings = ["Seperate", "Slurred"];
+    const keys = ["A", "C", "D", "E"];
+    const keyTypes = ["Major", "Harmonic", "Melodic"];
+    const chords = ["Major Third", "Minor Third", "Dominant Seventh", "Diminished Seventh"];
+    const intervals = ["Third", "Sixth", "Octave"];
+
+    function randomPick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generate(topic) {
+      let key = randomPick(keys);
+      let result = "";
+
+      if (topic === 1) {
+        let bowing = randomPick(bowings);
+        let keyType = randomPick(keyTypes);
+        result = `${key} | ${bowing} | ${keyType}`;
+      } else if (topic === 2) {
+        let bowing = randomPick(bowings);
+        let chord = randomPick(chords);
+        result = `${key} | ${bowing} | ${chord}`;
+      } else if (topic === 3) {
+        result = `${key}`;
+      } else if (topic === 4) {
+        let keyType = randomPick(keyTypes);
+        let interval = randomPick(intervals);
+        result = `${key} | ${keyType} | ${interval}`;
+      } else {
+        result = "Invalid Topic";
+      }
+
+      document.getElementById("result").innerText = result;
+    }
+  </script>
+  <footer style="margin-top: auto; padding: 1rem 0; text-align: center; font-size: 0.9rem; color: #888;">
+      © 2025 0x00A0. All rights reserved.
+  </footer>
+</body>
+</html>
