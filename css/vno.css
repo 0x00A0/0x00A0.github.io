@@ -7001,7 +7001,7 @@ hr {
 }
 
 .panel-main__content {
-    max-width: 620px;
+    max-width: 400px;
     margin: 0 auto
 }
 
@@ -7239,7 +7239,7 @@ i {
 
     .panel-cover__description {
         display: block;
-        max-width: 600px;
+        max-width: 100px;
         margin: 0 auto
     }
 
