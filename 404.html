@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>404</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #BBBBBB;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5vw;
+    }
+
+    .four {
+      position: relative;
+      color: #fff3dc;
+      font-size: 6vw;
+      width: 2em;
+      height: 2em;
+      border-bottom: 0.4em solid;
+      border-left: 0.4em solid;
+    }
+
+    .four::after {
+      content: '';
+      position: absolute;
+      background: #585858;
+      width: 0.4em;
+      height: 2.2em;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, 25%);
+    }
+
+    .fish {
+      position: relative;
+      width: 15vw;
+      height: 10vw;
+      background: linear-gradient(to bottom, #888 50%, #fff 50%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .fish::before {
+      content: '';
+      position: absolute;
+      right: -15%;
+      top: 40%;
+      width: 0;
+      height: 0;
+      border-top: 1vw solid transparent;
+      border-bottom: 1vw solid transparent;
+      border-left: 2vw solid #888;
+      transform: rotate(10deg);
+    }
+
+    .eye {
+      position: absolute;
+      top: 28%;
+      width: 2.4vw;
+      height: 2.4vw;
+      background: #fff;
+      border-radius: 50%;
+      border: 0.4vw solid #000;
+    }
+
+    .eye::after {
+      content: '';
+      position: absolute;
+      width: 0.8vw;
+      height: 0.8vw;
+      background: #000;
+      border-radius: 50%;
+      top: 30%;
+      left: 30%;
+    }
+
+    .eye.left {
+      left: 25%;
+    }
+
+    .eye.right {
+      left: 55%;
+    }
+
+    .mouth {
+      position: absolute;
+      top: 58%;
+      left: 40%;
+      width: 0;
+      height: 0;
+      border-left: 1.6vw solid transparent;
+      border-right: 1.6vw solid transparent;
+      border-top: 1.2vw solid #000;
+    }
+
+    .question-marks {
+      position: absolute;
+      top: -2vw;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2vw;
+      color: #333;
+      animation: bounce 1.5s infinite;
+    }
+
+    .message {
+      margin-top: 2vh;
+      font-size: 2.5vw;
+      color: #333;
+      text-align: center;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-0.5vw);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translate(-50%, 0);
+      }
+      50% {
+        transform: translate(-50%, -0.5vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="four"></div>
+    <div class="fish">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="mouth"></div>
+      <div class="question-marks">???</div>
+    </div>
+    <div class="four"></div>
+  </div>
+  <div class="message">这里什么也没有</div>
+</body>
+</html>
