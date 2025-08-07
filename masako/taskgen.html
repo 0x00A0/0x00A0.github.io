@@ -116,37 +116,37 @@
   const bowings = ["Seperate", "Slurred"];
   const keys = ["A", "C", "D", "E"];
   const keyTypes = ["Major", "Harmonic", "Melodic"];
-  const chords = ["Major Third", "Minor Third", "Dominant Seventh", "Diminished Seventh"];
+  const chords = ["Major Third", "Minor Third", "Dominant Seventh", "Dimini\n" +
+  "  function generate(topic) {\n" +
+  "    let key = randomPick(keys);\n" +
+  "    let result = \"\";\n" +
+  "\n" +
+  "    if (topic === 1) {\n" +
+  "      let bowing = randomPick(bowings);\n" +
+  "      let keyType = randomPick(keyTypes);\n" +
+  "      result = `${key} | ${bowing} | ${keyType}`;\n" +
+  "    } else if (topic === 2) {\n" +
+  "      let bowing = randomPick(bowings);\n" +
+  "      let chord = randomPick(chords);\n" +
+  "      result = `${key} | ${bowing} | ${chord}`;\n" +
+  "    } else if (topic === 3) {\n" +
+  "      result = `${key}`;\n" +
+  "    } else if (topic === 4) {\n" +
+  "      let keyType = randomPick(keyTypes);\n" +
+  "      let interval = randomPick(intervals);\n" +
+  "      result = `${key} | ${keyType} | ${interval}`;\n" +
+  "    } else {\n" +
+  "      result = \"Invalid Topic\";\n" +
+  "    }\n" +
+  "\n" +
+  "    document.getElementById(\"result\").innerText = result;\n" +
+  "  }shed Seventh"];
   const intervals = ["Third", "Sixth", "Octave"];
 
   function randomPick(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
-  function generate(topic) {
-    let key = randomPick(keys);
-    let result = "";
-
-    if (topic === 1) {
-      let bowing = randomPick(bowings);
-      let keyType = randomPick(keyTypes);
-      result = `${key} | ${bowing} | ${keyType}`;
-    } else if (topic === 2) {
-      let bowing = randomPick(bowings);
-      let chord = randomPick(chords);
-      result = `${key} | ${bowing} | ${chord}`;
-    } else if (topic === 3) {
-      result = `${key}`;
-    } else if (topic === 4) {
-      let keyType = randomPick(keyTypes);
-      let interval = randomPick(intervals);
-      result = `${key} | ${keyType} | ${interval}`;
-    } else {
-      result = "Invalid Topic";
-    }
-
-    document.getElementById("result").innerText = result;
-  }
 </script>
 </body>
 </html>
