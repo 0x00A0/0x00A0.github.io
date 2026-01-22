@@ -12,6 +12,16 @@ const QUALITY_ORDER = { d: 0, m: 1, M: 2, P: 3, A: 4 };
 // Major/Perfect base semitone counts for interval numbers 1..8
 const BASE_SEMITONES = { 1: 0, 2: 2, 3: 4, 4: 5, 5: 7, 6: 9, 7: 11, 8: 12 };
 
+// Guitar TAB (EADGBE standard tuning)
+const GUITAR_TUNING = [
+  { string: 6, note: "E", octave: 2, semitone: 40 },  // Low E
+  { string: 5, note: "A", octave: 2, semitone: 45 },  // A
+  { string: 4, note: "D", octave: 3, semitone: 50 },  // D
+  { string: 3, note: "G", octave: 3, semitone: 55 },  // G
+  { string: 2, note: "B", octave: 3, semitone: 59 },  // B
+  { string: 1, note: "E", octave: 4, semitone: 64 },  // High E
+];
+
 function isTabEnabled() {
   const el = document.getElementById("optTab");
   return !!(el && el.checked);
@@ -549,7 +559,10 @@ const TAB = {
 
 function renderTAB(svg, q) {
   svg.innerHTML = "";
+
+  // Set dynamic viewBox and height for TAB too
   svg.setAttribute("viewBox", `0 0 ${TAB.width} ${TAB.height}`);
+  svg.setAttribute("height", TAB.height);
 
   const strings = svgEl("g", { fill: "none", stroke: "var(--staff)", "stroke-width": 1.5 });
   for (let i = 0; i < 6; i++) {
@@ -821,10 +834,8 @@ function renderQuestion() {
 
   const svg = document.getElementById("staffSvg");
   if (isTabEnabled()) {
-    notationType = 'tab';
     renderTAB(svg, state.current);
   } else {
-    notationType = 'staff';
     renderStaff(svg, state.current);
   }
 
