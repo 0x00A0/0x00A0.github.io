@@ -4,26 +4,13 @@ const NATURAL_PC = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 
 // Interval quality CN
 const Q_CN = { P: "纯", M: "大", m: "小", A: "增", d: "减" };
-const NUM_CN = ["", "一", "二", "三", "四", "五", "六", "七", "八"]; // 1..8
+const NUM_CN = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五"]; // 1..15
 
 // Sort order: smaller -> larger: d < m < M < P < A
 const QUALITY_ORDER = { d: 0, m: 1, M: 2, P: 3, A: 4 };
 
 // Major/Perfect base semitone counts for interval numbers 1..8
 const BASE_SEMITONES = { 1: 0, 2: 2, 3: 4, 4: 5, 5: 7, 6: 9, 7: 11, 8: 12 };
-
-// Guitar TAB (EADGBE standard tuning)
-const GUITAR_TUNING = [
-  { string: 6, note: "E", octave: 2, semitone: 40 },  // Low E
-  { string: 5, note: "A", octave: 2, semitone: 45 },  // A
-  { string: 4, note: "D", octave: 3, semitone: 50 },  // D
-  { string: 3, note: "G", octave: 3, semitone: 55 },  // G
-  { string: 2, note: "B", octave: 3, semitone: 59 },  // B
-  { string: 1, note: "E", octave: 4, semitone: 64 },  // High E
-];
-
-// Notation type: 'staff' or 'tab'
-let notationType = 'staff';
 
 function isTabEnabled() {
   const el = document.getElementById("optTab");
@@ -32,6 +19,11 @@ function isTabEnabled() {
 
 function isAlteredAllowed() {
   const el = document.getElementById("optAltered");
+  return !!(el && el.checked);
+}
+
+function isCompoundEnabled() {
+  const el = document.getElementById("optCompound");
   return !!(el && el.checked);
 }
 
@@ -155,11 +147,24 @@ function pickBestGuitarPosition(note) {
 }
 
 function isPerfectClass(n) {
-  return n === 1 || n === 4 || n === 5 || n === 8;
+  // Compound intervals reduce to simple class (1..7) + octave(s)
+  const simple = ((n - 1) % 7) + 1;
+  return simple === 1 || simple === 4 || simple === 5;
+}
+
+function baseSemitonesFor(number) {
+  // Convert compound interval number to base semitones for its major/perfect form.
+  // e.g. 10th = octave(12) + 3rd(4) = 16
+  const octaves = Math.floor((number - 1) / 7);
+  const simple = ((number - 1) % 7) + 1; // 1..7
+  // Map compound 8 to simple 8? Here, octave class is handled by octaves.
+  // For 8, number-1=7 => octaves=1, simple=1 => 12
+  const baseSimple = BASE_SEMITONES[simple] ?? 0;
+  return octaves * 12 + baseSimple;
 }
 
 function qualityFor(number, semis) {
-  const base = BASE_SEMITONES[number];
+  const base = baseSemitonesFor(number);
   const diff = semis - base;
 
   if (isPerfectClass(number)) {
@@ -195,8 +200,18 @@ function compareIntervals(a, b) {
 // Generation rules (fixed defaults)
 // =====================
 const RANGE_LOW = { letter: "C", accidental: 0, octave: 4 };
-const RANGE_HIGH = { letter: "C", accidental: 0, octave: 5 };
-const ALLOWED_INTERVAL_NUMBERS = [1,2,3,4,5,6,7,8];
+const RANGE_HIGH = { letter: "C", accidental: 0, octave: 7 };
+
+function getAllowedIntervalNumbers() {
+  // Simple: 1..8; Compound: 1..15
+  return isCompoundEnabled()
+    ? [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    : [1,2,3,4,5,6,7,8];
+}
+
+function getMaxSemitoneSpan() {
+  return isCompoundEnabled() ? 24 : 12;
+}
 
 function getAllowedAccidentals() {
   return isAlteredAllowed() ? [-1, 0, 1] : [0];
@@ -212,12 +227,14 @@ function generateTabQuestion() {
 
   // Comfort ranges
   const windowMin = 0;
-  const windowMax = 12;
-  const windowWidth = 4; // e.g. frets 5~9
-  const maxFretSpan = 4;
-  const maxStringSpan = 2; // keep it within 3 adjacent strings
+  const windowMax = isCompoundEnabled() ? 17 : 12;
+  const windowWidth = isCompoundEnabled() ? 6 : 4;
+  const maxFretSpan = isCompoundEnabled() ? 6 : 4;
+  const maxStringSpan = isCompoundEnabled() ? 3 : 2;
 
-  for (let tries = 0; tries < 1200; tries++) {
+  const maxSemis = getMaxSemitoneSpan();
+
+  for (let tries = 0; tries < 1600; tries++) {
     const posStart = randInt(windowMin, Math.max(windowMin, windowMax - windowWidth));
     const posEnd = posStart + windowWidth;
 
@@ -244,7 +261,7 @@ function generateTabQuestion() {
     }
 
     const absSemis = Math.abs(semiB - semiA);
-    if (absSemis > 12) continue;
+    if (absSemis > maxSemis) continue;
 
     // Prefer not-too-tiny span sometimes; avoid 0 unless unison is intended.
     // (keep unison allowed, but mildly reduce its probability)
@@ -255,7 +272,10 @@ function generateTabQuestion() {
 
     const ordered = ensureLowHigh(left, right);
     const number = intervalNumberDiatonic(ordered.low, ordered.high);
-    if (number < 1 || number > 8) continue;
+    if (number < 1 || number > 15) continue;
+
+    const allowedNums = getAllowedIntervalNumbers();
+    if (!allowedNums.includes(number)) continue;
 
     const quality = qualityFor(number, absSemis);
 
@@ -296,9 +316,11 @@ function generateQuestion() {
   const lowD = diatonicIndex(RANGE_LOW.letter, RANGE_LOW.octave);
   const highD = diatonicIndex(RANGE_HIGH.letter, RANGE_HIGH.octave);
   const allowedAccidentals = getAllowedAccidentals();
+  const allowedNums = getAllowedIntervalNumbers();
+  const maxSemis = getMaxSemitoneSpan();
 
-  for (let tries = 0; tries < 400; tries++) {
-    const num = choice(ALLOWED_INTERVAL_NUMBERS);
+  for (let tries = 0; tries < 700; tries++) {
+    const num = choice(allowedNums);
 
     const maxLow = highD - (num - 1);
     if (maxLow < lowD) continue;
@@ -314,20 +336,19 @@ function generateQuestion() {
     const low = { letter: lowLetter, octave: lowOct, accidental: choice(allowedAccidentals) };
     const high = { letter: highLetter, octave: highOct, accidental: choice(allowedAccidentals) };
 
-    // Ensure within one octave in semitones (<= 12)
     const ordered = ensureLowHigh(low, high);
     const semisAsc = semitoneOf(ordered.high) - semitoneOf(ordered.low);
-    if (semisAsc < 0 || semisAsc > 12) continue;
+    if (semisAsc < 0 || semisAsc > maxSemis) continue;
 
     const direction = Math.random() < 0.5 ? "up" : "down";
     const left = direction === "up" ? ordered.low : ordered.high;
     const right = direction === "up" ? ordered.high : ordered.low;
 
     const absSemis = Math.abs(semitoneOf(right) - semitoneOf(left));
-    if (absSemis > 12) continue;
+    if (absSemis > maxSemis) continue;
 
     const number = intervalNumberDiatonic(ensureLowHigh(left, right).low, ensureLowHigh(left, right).high);
-    if (number < 1 || number > 8) continue;
+    if (number < 1 || number > 15) continue;
 
     const quality = qualityFor(number, absSemis);
 
@@ -340,10 +361,10 @@ function generateQuestion() {
   }
 
   return {
-    left: { letter: "C", accidental: 0, octave: 5 },
+    left: { letter: "C", accidental: 0, octave: 6 },
     right: { letter: "C", accidental: 0, octave: 4 },
     direction: "down",
-    answer: { number: 8, quality: "P" },
+    answer: { number: isCompoundEnabled() ? 15 : 8, quality: "P" },
   };
 }
 
@@ -353,16 +374,15 @@ function generateQuestion() {
 
 const STAFF = {
   width: 820,
-  height: 240,
   leftPad: 80,
   rightPad: 40,
-  top: 40,
-  lineGap: 16,
+  top: 50,
+  lineGap: 14,
   noteX1: 350,
   noteX2: 520,
   noteRadiusX: 14,
   noteRadiusY: 10,
-  stepPx: 8,
+  stepPx: 7,
   anchor: { letter: "E", octave: 4 },
 };
 
@@ -383,24 +403,6 @@ function svgEl(tag, attrs = {}) {
 
 function renderStaff(svg, q) {
   svg.innerHTML = "";
-  svg.setAttribute("viewBox", `0 0 ${STAFF.width} ${STAFF.height}`);
-
-  const lines = svgEl("g", { fill: "none", stroke: "var(--staff)", "stroke-width": 2 });
-  for (let i = 0; i < 5; i++) {
-    const y = STAFF.top + i * STAFF.lineGap;
-    lines.appendChild(svgEl("line", { x1: STAFF.leftPad, x2: STAFF.width - STAFF.rightPad, y1: y, y2: y }));
-  }
-  svg.appendChild(lines);
-
-  const clef = svgEl("text", {
-    x: STAFF.leftPad - 46,
-    y: STAFF.top + 3 * STAFF.lineGap + 8,
-    fill: "rgba(17,24,39,0.8)",
-    "font-size": 64,
-    "font-family": "serif",
-  });
-  clef.textContent = "𝄞";
-  svg.appendChild(clef);
 
   const left = q.left;
   const right = q.right;
@@ -410,23 +412,59 @@ function renderStaff(svg, q) {
   const y1 = yForStep(s1);
   const y2 = yForStep(s2);
 
+  // Calculate bounds for dynamic height
+  const minStep = Math.min(s1, s2);
+  const maxStep = Math.max(s1, s2);
+  const minLedgerStep = minStep < 0 ? Math.floor(minStep / 2) * 2 : 0;
+  const maxLedgerStep = maxStep > 8 ? Math.ceil(maxStep / 2) * 2 : 8;
+
+  const minY = yForStep(maxLedgerStep);
+  const maxY = yForStep(minLedgerStep);
+  const padding = 30;
+  const svgHeight = maxY - minY + 2 * padding;
+  const viewBoxMinY = minY - padding;
+
+  svg.setAttribute("viewBox", `0 ${viewBoxMinY} ${STAFF.width} ${svgHeight}`);
+  svg.setAttribute("height", Math.max(180, svgHeight));
+
+  // Draw staff lines (always the same 5 lines)
+  const lines = svgEl("g", { fill: "none", stroke: "var(--staff)", "stroke-width": 2 });
+  for (let i = 0; i < 5; i++) {
+    const y = STAFF.top + i * STAFF.lineGap;
+    lines.appendChild(svgEl("line", { x1: STAFF.leftPad, x2: STAFF.width - STAFF.rightPad, y1: y, y2: y }));
+  }
+  svg.appendChild(lines);
+
+  // Draw treble clef
+  const clef = svgEl("text", {
+    x: STAFF.leftPad - 35,
+    y: STAFF.top + 3 * STAFF.lineGap + 6,
+    fill: "rgba(17,24,39,0.8)",
+    "font-size": 52,
+    "font-family": "serif",
+    "text-anchor": "middle",
+  });
+  clef.textContent = "𝄞";
+  svg.appendChild(clef);
+
   const x1 = STAFF.noteX1;
   const x2 = (s1 === s2) ? (STAFF.noteX2 + 18) : STAFF.noteX2;
 
+  // Draw ledger lines (only for notes outside staff)
   const ledger = svgEl("g", { stroke: "var(--staff)", "stroke-width": 2 });
   function addLedger(step, x) {
-    const minLine = 0;
-    const maxLine = 8;
-    if (step < minLine) {
-      for (let s = -2; s >= step; s -= 2) {
+    const staffTop = 0;
+    const staffBottom = 8;
+    if (step < staffTop) {
+      for (let s = staffTop - 2; s >= step; s -= 2) {
         const y = yForStep(s);
-        ledger.appendChild(svgEl("line", { x1: x - 26, x2: x + 26, y1: y, y2: y }));
+        ledger.appendChild(svgEl("line", { x1: x - 24, x2: x + 24, y1: y, y2: y }));
       }
     }
-    if (step > maxLine) {
-      for (let s = 10; s <= step; s += 2) {
+    if (step > staffBottom) {
+      for (let s = staffBottom + 2; s <= step; s += 2) {
         const y = yForStep(s);
-        ledger.appendChild(svgEl("line", { x1: x - 26, x2: x + 26, y1: y, y2: y }));
+        ledger.appendChild(svgEl("line", { x1: x - 24, x2: x + 24, y1: y, y2: y }));
       }
     }
   }
@@ -666,8 +704,10 @@ function buildChoiceSet(correct) {
     if (altered) {
       candidates.push({ number: n, quality: "d" }, { number: n, quality: "A" });
     } else {
-      if (n === 4) candidates.push({ number: 4, quality: "A" });
-      if (n === 5) candidates.push({ number: 5, quality: "d" });
+      // keep a bit of traditional spice around 4/5, and also 11/12 (compound equivalents)
+      const simple = ((n - 1) % 7) + 1;
+      if (simple === 4) candidates.push({ number: n, quality: "A" });
+      if (simple === 5) candidates.push({ number: n, quality: "d" });
     }
   } else {
     candidates.push({ number: n, quality: "m" }, { number: n, quality: "M" });
@@ -677,7 +717,7 @@ function buildChoiceSet(correct) {
   }
 
   if (n > 1) candidates.push({ number: n - 1, quality: isPerfectClass(n - 1) ? "P" : "M" });
-  if (n < 8) candidates.push({ number: n + 1, quality: isPerfectClass(n + 1) ? "P" : "M" });
+  if (n < 15) candidates.push({ number: n + 1, quality: isPerfectClass(n + 1) ? "P" : "M" });
 
   for (const c of candidates) {
     if (isForbidden(c)) continue;
@@ -700,6 +740,19 @@ function buildChoiceSet(correct) {
     { number: 7, quality: "m" },
     { number: 7, quality: "M" },
     { number: 8, quality: "P" },
+
+    // Compound (add the most common ones)
+    { number: 9, quality: "m" },
+    { number: 9, quality: "M" },
+    { number: 10, quality: "m" },
+    { number: 10, quality: "M" },
+    { number: 11, quality: "P" },
+    { number: 12, quality: "P" },
+    { number: 13, quality: "m" },
+    { number: 13, quality: "M" },
+    { number: 14, quality: "m" },
+    { number: 14, quality: "M" },
+    { number: 15, quality: "P" },
   ];
 
   const ALTERED_COMMON = [
@@ -711,12 +764,24 @@ function buildChoiceSet(correct) {
     { number: 6, quality: "d" },
     { number: 7, quality: "A" },
     { number: 7, quality: "d" },
+
+    // Compound altered
+    { number: 9, quality: "A" },
+    { number: 9, quality: "d" },
+    { number: 10, quality: "A" },
+    { number: 10, quality: "d" },
+    { number: 13, quality: "A" },
+    { number: 13, quality: "d" },
+    { number: 14, quality: "A" },
+    { number: 14, quality: "d" },
   ];
 
   const commonPool = altered ? [...NATURAL_COMMON, ...ALTERED_COMMON] : NATURAL_COMMON;
+  const allowedNumsNow = getAllowedIntervalNumbers();
 
   for (const c of commonPool) {
     if (pool.size >= 9) break;
+    if (!allowedNumsNow.includes(c.number)) continue;
     if (isForbidden(c)) continue;
     const id = intervalId(c);
     if (!pool.has(id)) pool.set(id, c);
@@ -823,6 +888,13 @@ function wireEvents() {
   const opt = document.getElementById("optAltered");
   if (opt) {
     opt.addEventListener("change", () => {
+      renderQuestion();
+    });
+  }
+
+  const optCompound = document.getElementById("optCompound");
+  if (optCompound) {
+    optCompound.addEventListener("change", () => {
       renderQuestion();
     });
   }

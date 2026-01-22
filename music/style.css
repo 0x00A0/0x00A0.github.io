@@ -99,9 +99,15 @@ h1 {
   border-radius: 10px;
   background: #fafafa;
   padding: 10px;
+  overflow: hidden;
 }
 
-svg { display: block; width: 100%; height: auto; }
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+}
 
 .choices {
   display: grid;
