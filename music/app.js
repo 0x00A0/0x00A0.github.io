@@ -570,8 +570,8 @@ function renderTAB(svg, q) {
   }
 
   function drawFretNumber(x, string, fret, color) {
-    const displayString = 7 - string;
-    const y = TAB.top + (displayString - 1) * TAB.stringGap;
+    // string: 1..6，其中 1 弦应显示在最上方，6 弦在最下方
+    const y = TAB.top + (string - 1) * TAB.stringGap;
 
     const circle = svgEl("circle", {
       cx: x,
@@ -652,6 +652,10 @@ function buildChoiceSet(correct) {
   const pool = new Map();
   pool.set(intervalId(correct), correct);
 
+  // “减一度”在本练习中视为不存在：永远不出现在选项里。
+  // （用 id 过滤，避免改动其它质量/级数的生成逻辑）
+  const isForbidden = (iv) => intervalId(iv) === "d1";
+
   const n = correct.number;
   const candidates = [];
 
@@ -676,6 +680,7 @@ function buildChoiceSet(correct) {
   if (n < 8) candidates.push({ number: n + 1, quality: isPerfectClass(n + 1) ? "P" : "M" });
 
   for (const c of candidates) {
+    if (isForbidden(c)) continue;
     const id = intervalId(c);
     if (!pool.has(id)) pool.set(id, c);
   }
@@ -712,11 +717,13 @@ function buildChoiceSet(correct) {
 
   for (const c of commonPool) {
     if (pool.size >= 9) break;
+    if (isForbidden(c)) continue;
     const id = intervalId(c);
     if (!pool.has(id)) pool.set(id, c);
   }
 
-  const arr = Array.from(pool.values());
+  // Extra safety: in case something slipped in.
+  const arr = Array.from(pool.values()).filter((iv) => !isForbidden(iv));
   while (arr.length > 9) arr.splice(randInt(0, arr.length - 1), 1);
 
   arr.sort(compareIntervals);
